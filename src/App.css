@@ -1,0 +1,64 @@
+body {
+  background-color: #1b1b1b;
+}
+
+@media (min-width: 480px) {
+  .parentCards div:nth-child(10) {
+    grid-column: 2;
+  }
+}
+@media (min-width: 640px) {
+  .parentCards div:nth-child(9) {
+    grid-column: 2;
+  }
+  .parentCards div:nth-child(10) {
+    grid-column: inherit;
+  }
+}
+@media (min-width: 768px) {
+  .parentCards div:nth-child(10) {
+    grid-column: 2;
+  }
+  .parentCards div:nth-child(9) {
+    grid-column: inherit;
+  }
+}
+@media (min-width: 1024px) {
+  .parentCards div:nth-child(10) {
+    grid-column: inherit;
+  }
+  .parentCards div:nth-child(9) {
+    grid-column: 2;
+  }
+}
+@media (min-width: 1280px) {
+  .parentCards div:nth-child(10) {
+    grid-column: inherit;
+  }
+  .parentCards div:nth-child(9) {
+    grid-column: inherit;
+  }
+}
+.navcat,
+.personal-details {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  position: fixed;
+}
+.navcat div,
+.personal-details-overlay {
+  position: absolute;
+  top: -395px;
+  left: -750px;
+  background-color: rgba(0, 0, 0, 0.372);
+  width: 802vh;
+  height: 182vh;
+}
+.shadowNavSet {
+  box-shadow: rgba(255, 255, 255, 0.25) 0px 0 20px 6px;
+}
