@@ -12,15 +12,18 @@ const Signup = () => {
   } = useForm({ mode: "onBlur" });
   const [signUp, result] = useSignUpMutation();
 
-  const OnSubmit = async (data) => {
-    await signUp(data);
-    console.log(result);
-    if (result?.status == "fulfilled") {
-      rout("/");
-      result?.data?.payload?.token &&
-        localStorage.setItem("token", `${result?.data?.payload?.token}`);
-    }
+  const OnSubmit = (data) => {
+    signUp(data)
+      .unwrap()
+      .then((fulfilled) => {
+        console.log(fulfilled?.payload);
+        // rout("/");
+        localStorage.setItem("token", `${fulfilled?.payload?.token}`);
+        rout("/");
+      })
+      .catch((rejected) => console.error(rejected));
   };
+  // console.log(result?.payload);
   return (
     <div className="flex justify-center items-center relative h-[100vh] flex-col bg-sec text-main">
       <div

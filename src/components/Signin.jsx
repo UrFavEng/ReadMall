@@ -14,14 +14,15 @@ const Signin = () => {
   } = useForm({ mode: "onBlur" });
   const [signin, result] = useSigninMutation();
 
-  const OnSubmit = async (data) => {
-    await signin(data);
-    console.log(result);
-    if (result?.status == "fulfilled") {
-      rout("/");
-      result?.data?.payload?.token &&
-        localStorage.setItem("token", `${result?.data?.payload?.token}`);
-    }
+  const OnSubmit = (data) => {
+    signin(data)
+      .unwrap()
+      .then((fulfilled) => {
+        console.log(fulfilled?.payload);
+        localStorage.setItem("token", `${fulfilled?.payload?.token}`);
+        rout("/");
+      })
+      .catch((rejected) => console.error(rejected));
   };
   return (
     <div className="flex justify-center items-center relative h-[100vh] flex-col bg-sec text-main">
