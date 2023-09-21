@@ -7,7 +7,8 @@ import { RotatingLines } from "react-loader-spinner";
 const Signup = () => {
   const rout = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [longPass, setLongPass] = useState(false);
+  const [errPassEmail, setErrPassEmail] = useState("");
+  const [show, setShow] = useState(false);
   const {
     register,
     control,
@@ -17,7 +18,7 @@ const Signup = () => {
   const [signUp, result] = useSignUpMutation();
 
   const OnSubmit = (data) => {
-    setLongPass(false);
+    setShow(false);
 
     setLoading(true);
     signUp(data)
@@ -25,19 +26,16 @@ const Signup = () => {
       .then((fulfilled) => {
         console.log(fulfilled?.payload);
         setLoading(false);
-        setLongPass(false);
-
+        setShow(false);
         // rout("/");
         localStorage.setItem("token", `${fulfilled?.payload?.token}`);
         rout("/");
       })
       .catch((rejected) => {
         setLoading(false);
-        console.error(rejected?.status);
-        if (rejected?.status == 404) {
-          console.log(404);
-          setLongPass(true);
-        }
+        console.error(rejected);
+        setShow(true);
+        setErrPassEmail(rejected?.data?.message);
       });
   };
   // console.log(result?.payload);
@@ -106,7 +104,7 @@ const Signup = () => {
           type="password"
           className="border-0 outline-0 bg-white text-black pl-[10px] w-[280px]  md:w-[350px] h-[45px] focus:border-b-[1px] focus:border-black"
         />
-        {longPass && <p>password length must be at least 8 characters long</p>}
+        {show && <p className="text-[17] capitalize">{errPassEmail}</p>}
         {loading ? (
           <RotatingLines
             strokeColor="grey"
