@@ -6,13 +6,30 @@ import {
 } from "../store/apiSlice";
 import { useParams } from "react-router-dom";
 import BookCard from "./BookCard";
+import { RotatingLines } from "react-loader-spinner";
 
 const PublisherDetails = ({ setCat, setPage }) => {
   const { id } = useParams();
-  const { data } = useGetDetailPublisherQuery(id);
+  const { data, isLoading } = useGetDetailPublisherQuery(id);
   const { data: books } = useGetBooksPublisherQuery(id);
   const details = data?.payload?.publisher;
   console.log(details);
+  if (isLoading) {
+    return (
+      <>
+        <Navbar setCat={setCat} setPage={setPage} />
+        <div className="flex justify-center items-center h-[91vh]">
+          <RotatingLines
+            strokeColor="grey"
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="76"
+            visible={true}
+          />
+        </div>
+      </>
+    );
+  }
   return (
     <div>
       {" "}

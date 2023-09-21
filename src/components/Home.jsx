@@ -1,7 +1,8 @@
 import { Link, useParams } from "react-router-dom";
 import BookCard from "./BookCard";
+import { RotatingLines } from "react-loader-spinner";
 
-const Home = ({ books, maxPage, setPage, page, setCat }) => {
+const Home = ({ books, maxPage, setPage, page, setCat, loadingHomePage }) => {
   const { id } = useParams();
 
   const nextPage = () => {
@@ -15,7 +16,19 @@ const Home = ({ books, maxPage, setPage, page, setCat }) => {
       setPage(page - 1);
     }
   };
-
+  if (loadingHomePage) {
+    return (
+      <div className="flex-1 md:flex-[3] lg:flex-[4] xl:flex-[5] flex justify-center items-center">
+        <RotatingLines
+          strokeColor="grey"
+          strokeWidth="4"
+          animationDuration="0.75"
+          width="90"
+          visible={true}
+        />
+      </div>
+    );
+  }
   return (
     <div className="bg-[#1b1b1b] p-[20px] md:flex-[3] lg:flex-[4] xl:flex-[5]  pt-[15px]">
       {!id && (

@@ -1,3 +1,4 @@
+import { RotatingLines } from "react-loader-spinner";
 import {
   useGetBookByAuthorQuery,
   useGetDetailAuthorQuery,
@@ -8,7 +9,7 @@ import { useParams } from "react-router-dom";
 
 const AuthorDetails = ({ setCat, setPage }) => {
   const { id } = useParams();
-  const { data } = useGetDetailAuthorQuery(id);
+  const { data, isLoading } = useGetDetailAuthorQuery(id);
   const { data: bookAuthor } = useGetBookByAuthorQuery(id);
   const details = data?.payload?.author;
   //   const formattedDate = new Date(details?.deathDate);
@@ -31,6 +32,23 @@ const AuthorDetails = ({ setCat, setPage }) => {
 
     // قم بتنسيق التاريخ بناءً على القيم المستخرجة
     var formattedDeathDate = `${day}/${month}/${year}`;
+  }
+  if (isLoading) {
+    return (
+      <>
+        {" "}
+        <Navbar setCat={setCat} setPage={setPage} />
+        <div className="flex justify-center items-center h-[91vh]">
+          <RotatingLines
+            strokeColor="grey"
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="76"
+            visible={true}
+          />
+        </div>
+      </>
+    );
   }
   return (
     <div>

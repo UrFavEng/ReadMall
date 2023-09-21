@@ -18,7 +18,7 @@ function App() {
   const [cat, setCat] = useState("getRecentlyUploaded");
   const [page, setPage] = useState(1);
 
-  const { data: dataBooks } = useGetBooksQuery({
+  const { data: dataBooks, isLoading: loadingHomePage } = useGetBooksQuery({
     cat,
     page,
   });
@@ -30,6 +30,7 @@ function App() {
             path="/"
             element={
               <Home
+                loadingHomePage={loadingHomePage}
                 cat={cat}
                 books={dataBooks?.payload?.books}
                 maxPage={dataBooks?.payload?.numOfPages}
@@ -43,6 +44,7 @@ function App() {
             path="/cat/:id"
             element={
               <Home
+                loadingHomePage={loadingHomePage}
                 cat={cat}
                 books={dataBooks?.payload?.books}
                 maxPage={dataBooks?.payload?.numOfPages}

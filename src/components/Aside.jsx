@@ -1,12 +1,22 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useGetCatQuery } from "../store/apiSlice";
+import { RotatingLines } from "react-loader-spinner";
 
 const Aside = ({ setCat, setPage }) => {
   const navigate = useNavigate();
 
   const { data, isLoading, isError } = useGetCatQuery();
   if (isLoading) {
-    return "loading";
+    return;
+    // <div>
+    //   <RotatingLines
+    //     strokeColor="grey"
+    //     strokeWidth="5"
+    //     animationDuration="0.75"
+    //     width="36"
+    //     visible={true}
+    //   />
+    // </div>
   }
   const cats = data?.payload?.categories;
   return (

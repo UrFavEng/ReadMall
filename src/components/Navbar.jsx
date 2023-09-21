@@ -6,6 +6,7 @@ import NavCat from "./NavCat";
 import { useGetCatQuery, useGetMeQuery } from "../store/apiSlice";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { MdVerified } from "react-icons/md";
+import { RotatingLines } from "react-loader-spinner";
 const Navbar = ({ setCat, setPage }) => {
   const rout = useNavigate();
   const [show, setShow] = useState(false);
@@ -27,7 +28,7 @@ const Navbar = ({ setCat, setPage }) => {
   };
   const navigate = useNavigate();
 
-  const { data, isLoading } = useGetCatQuery();
+  const { data, isLoading: loadingCatNav } = useGetCatQuery();
   const cats = data?.payload?.categories;
   const navcat = document.querySelector(".navcat");
   const personalDetails = document.querySelector(".personal-details");

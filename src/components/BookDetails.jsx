@@ -4,12 +4,30 @@ import Navbar from "./Navbar";
 import { useGetBookQuery } from "../store/apiSlice";
 import BookCard from "./BookCard";
 import { useNavigate } from "react-router-dom";
+import { RotatingLines } from "react-loader-spinner";
 const BookDetails = ({ setCat, setPage }) => {
   const { id } = useParams();
 
-  const { data } = useGetBookQuery(id);
+  const { data, isLoading } = useGetBookQuery(id);
   const details = data?.payload?.book;
   const rout = useNavigate();
+  if (isLoading) {
+    return (
+      <>
+        {" "}
+        <Navbar setCat={setCat} setPage={setPage} />
+        <div className="flex justify-center items-center h-[91vh]">
+          <RotatingLines
+            strokeColor="grey"
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="76"
+            visible={true}
+          />
+        </div>
+      </>
+    );
+  }
   return (
     <div className="pb-[50px]">
       <Navbar setCat={setCat} setPage={setPage} />
