@@ -10,6 +10,7 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
+  tagTypes: ["dataUser"],
   endpoints: (builder) => ({
     getCat: builder.query({
       query: () => `/categories/getAllCategories`,
@@ -51,6 +52,15 @@ export const apiSlice = createApi({
     }),
     getMe: builder.query({
       query: () => `/users/me`,
+      providesTags: ["dataUser"],
+    }),
+    rename: builder.mutation({
+      query: (body) => ({
+        url: "/users/editMyProfile", // تحديد مسار المورد الذي تريد تحديثه
+        method: "PATCH", // استخدام طريقة PATCH
+        body, // بيانات التحديث التي تريد إرسالها
+      }),
+      invalidatesTags: ["dataUser"],
     }),
   }),
 });
@@ -58,6 +68,7 @@ export const apiSlice = createApi({
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 export const {
+  useRenameMutation,
   useGetCatQuery,
   useGetBooksQuery,
   useGetBookQuery,

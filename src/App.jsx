@@ -11,13 +11,15 @@ import {
   Signin,
   Signup,
 } from "./components";
-import { useGetBooksQuery } from "./store/apiSlice";
+import { useGetBooksQuery, useGetMeQuery } from "./store/apiSlice";
 import { useState } from "react";
 
 function App() {
+  const { data: tokendetails, error: errorGetMe } = useGetMeQuery();
+  // console.log(tokendetails?.payload?.user);
   const [cat, setCat] = useState("getRecentlyUploaded");
   const [page, setPage] = useState(1);
-
+  const [dataUser, setDataUser] = useState();
   const { data: dataBooks, isLoading: loadingHomePage } = useGetBooksQuery({
     cat,
     page,
@@ -61,7 +63,7 @@ function App() {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/signin" element={<Signin />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/signup" element={<Signup setDataUser={setDataUser} />} />
         <Route
           path="/searchresulte/:name"
           element={<SearchResulte setCat={setCat} setPage={setPage} />}

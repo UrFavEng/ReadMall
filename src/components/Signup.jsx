@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSignUpMutation } from "../store/apiSlice";
 import { useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
-const Signup = () => {
+const Signup = ({ setDataUser }) => {
   const rout = useNavigate();
   const [loading, setLoading] = useState(false);
   const [errPassEmail, setErrPassEmail] = useState("");
@@ -27,8 +27,10 @@ const Signup = () => {
         console.log(fulfilled?.payload);
         setLoading(false);
         setShow(false);
+        setDataUser(fulfilled?.payload);
         // rout("/");
         localStorage.setItem("token", `${fulfilled?.payload?.token}`);
+        localStorage.setItem("dataUser", `${fulfilled?.payload?.user?.id}`);
         rout("/");
       })
       .catch((rejected) => {

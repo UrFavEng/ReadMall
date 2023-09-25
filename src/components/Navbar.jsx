@@ -1,14 +1,48 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AiFillSetting, AiOutlineSearch } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Link, useNavigate } from "react-router-dom";
-import NavCat from "./NavCat";
-import { useGetCatQuery, useGetMeQuery } from "../store/apiSlice";
+
+import {
+  useGetCatQuery,
+  useGetMeQuery,
+  useRenameMutation,
+} from "../store/apiSlice";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { MdVerified } from "react-icons/md";
-import { RotatingLines } from "react-loader-spinner";
+import { useForm } from "react-hook-form";
 const Navbar = ({ setCat, setPage }) => {
   const rout = useNavigate();
+  const [renamme] = useRenameMutation();
+  const [reset, setReset] = useState("");
+  const [errName, setErrName] = useState(false);
+  const [loading, setLoading] = useState("");
+  const [showInputPass, setShowInputPass] = useState(false);
+  const [showInputName, setShowInputName] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: "onBlur" });
+  const handleRename = (data) => {
+    setLoading(true);
+    setErrName(false);
+    renamme(data)
+      .unwrap()
+      .then((fulfilled) => {
+        console.log(fulfilled?.payload);
+        setLoading(false);
+        setErrName(false);
+      })
+      .catch((rejected) => {
+        setLoading(false);
+        setErrName(true);
+
+        console.error(rejected);
+      });
+  };
+  console.log(errors);
+
   const [show, setShow] = useState(false);
   const handelSearch = (e) => {
     e.preventDefault();
@@ -28,14 +62,12 @@ const Navbar = ({ setCat, setPage }) => {
   };
   const navigate = useNavigate();
 
-  const { data, isLoading: loadingCatNav } = useGetCatQuery();
+  const { data } = useGetCatQuery();
   const cats = data?.payload?.categories;
   const navcat = document.querySelector(".navcat");
   const personalDetails = document.querySelector(".personal-details");
-  // const token = localStorage.getItem("token");
+
   const { data: tokendetails, error: errorGetMe } = useGetMeQuery();
-  // console.log(error?.status);
-  console.log(tokendetails, errorGetMe?.data?.error);
 
   return (
     <>
@@ -96,6 +128,7 @@ const Navbar = ({ setCat, setPage }) => {
                 <Link
                   onClick={() => {
                     localStorage.removeItem("token");
+                    localStorage.removeItem("dataUser");
                     location.reload();
                   }}
                 >
@@ -111,6 +144,7 @@ const Navbar = ({ setCat, setPage }) => {
               }}
             ></div>
             <ul className="cats text-center sticky top-[250px] w-[100%] rounded-[15px] shadowNavSet overflow-hidden">
+              {/* links cats */}
               {cats?.map((e) => (
                 <li
                   onClick={() => {
@@ -125,6 +159,7 @@ const Navbar = ({ setCat, setPage }) => {
                   {e?.categoryName}
                 </li>
               ))}
+              {/* check login or not */}
               {errorGetMe?.data?.error ? (
                 <li
                   onClick={() => {
@@ -149,6 +184,7 @@ const Navbar = ({ setCat, setPage }) => {
                   <li
                     onClick={() => {
                       localStorage.removeItem("token");
+                      localStorage.removeItem("userData");
                       location.reload();
                     }}
                     className="text-sec hover:bg-[#000000d5] py-[12px] flex justify-center items-center gap-1 bg-[#777] capitalize text-[22px] font-[500] tracking-[1px] border-b-[0.5px] border-[#908f8f] w-[100%]   px-[28px] cursor-pointer "
@@ -168,6 +204,7 @@ const Navbar = ({ setCat, setPage }) => {
               </li>
             </ul>
           </div>
+          {/* personal-details */}
           <div className=" z-40 hidden personal-details  ">
             <div
               onClick={() => {
@@ -182,7 +219,7 @@ const Navbar = ({ setCat, setPage }) => {
                   src={tokendetails?.payload?.user?.avatarUrl}
                   alt=""
                 />
-                <span className=" flex items-center gap-[5px] text-[22px] font-medium tracking-[1px] text-center">
+                <span className=" flex items-center gap-[5px] text-[22px] font-medium capitalize tracking-[1px] text-center">
                   {tokendetails?.payload?.user?.fullname}{" "}
                   {tokendetails?.payload?.user?.verified && (
                     <span className="text-white text-[14px] mt-[5px]">
@@ -194,18 +231,101 @@ const Navbar = ({ setCat, setPage }) => {
               <li className="mb-[8px] text-[18px] ">
                 Email : {tokendetails?.payload?.user?.email}
               </li>
+              {/* btns for edit pass and name */}
               <li className="mt-[25px] flex gap-[30px] cursor-pointer">
-                <button className="bg-sec text-main py-[5px] px-[8px] rounded-[6px] cursor-pointer">
+                <button
+                  onClick={() => {
+                    setShowInputPass(true);
+                    setShowInputName(false);
+                  }}
+                  className="bg-sec text-main py-[5px] px-[8px] rounded-[6px] cursor-pointer"
+                >
                   Reset Password
                 </button>{" "}
-                <button className="bg-sec text-main py-[5px] px-[8px] rounded-[6px] cursor-pointer capitalize">
+                <button
+                  onClick={() => {
+                    setReset("name");
+                    setShowInputPass(false);
+                    setShowInputName(true);
+                  }}
+                  className="bg-sec text-main py-[5px] px-[8px] rounded-[6px] cursor-pointer capitalize"
+                >
                   Edit your name
                 </button>
               </li>
+              {/* edit password */}
+              {showInputPass && (
+                <li>Working</li>
+                // <li className="pt-3">
+                //   <form action="" className="flex  items-center">
+                //     <input
+                //       className="border-none pl-[4px] placeholder:text-[14px] placeholder:text-main bg-sec text-main outline-none w-[65%] h-[30px]"
+                //       type="password"
+                //       placeholder={`Enter your new password`}
+                //     />
+                //     <input
+                //       className="border  border-sec  h-[30px] cursor-pointer outline-none w-[25%] py-[2px] px-[4px]"
+                //       type="submit"
+                //       value={"Submit"}
+                //     />
+                //     <span
+                //       className="pl-[5px] cursor-pointer text-sec"
+                //       onClick={() => {
+                //         setShowInputPass(false);
+                //         setShowInputName(false);
+                //       }}
+                //     >
+                //       <AiFillCloseCircle />
+                //     </span>
+                //   </form>
+                // </li>
+              )}
+              {/* edit name */}
+              {showInputName && (
+                <li className="pt-3">
+                  <form
+                    action=""
+                    className="flex  items-center"
+                    onSubmit={handleSubmit(handleRename)}
+                    noValidate
+                  >
+                    <input
+                      {...register("fullname", {
+                        required: "Name is required",
+                      })}
+                      className="border-none pl-[6px] text-[17px] capitalize font-medium placeholder:text-[14px] placeholder:text-main bg-sec text-main outline-none w-[65%] h-[30px]"
+                      type="text"
+                      name="fullname"
+                      placeholder={`Enter your new name`}
+                    />
+                    <input
+                      className="border  border-sec  h-[30px] cursor-pointer outline-none w-[25%] py-[2px] px-[4px]"
+                      value={`${loading ? "Loading..." : "Submit"}`}
+                      type={"Submit"}
+                    />
+                    <span
+                      className="pl-[5px] cursor-pointer text-sec"
+                      onClick={() => {
+                        setShowInputPass(false);
+                        setShowInputName(false);
+                        setErrName(false);
+                      }}
+                    >
+                      <AiFillCloseCircle />
+                    </span>
+                  </form>
+                  {errName && (
+                    <p className="text-sec capitalize text-[12px] pt-[10px] font-medium">
+                      "fullname" length must be at least 4 characters long
+                    </p>
+                  )}
+                </li>
+              )}
             </ul>
           </div>
         </div>
       </div>
+      {/* form for small screen */}
       {show && (
         <form
           onSubmit={handelSearchSM}
