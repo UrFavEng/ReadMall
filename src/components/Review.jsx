@@ -185,7 +185,7 @@ const Review = ({ data }) => {
         </div>
       </div>
       {errDelete && (
-        <p className="text-main capitalize text-[18px] ml-[65px] py-[10px]">
+        <p className="text-main capitalize text-[18px] sm:ml-[65px] py-[10px]">
           {errDelete}
         </p>
       )}
