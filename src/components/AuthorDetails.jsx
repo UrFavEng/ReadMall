@@ -12,7 +12,6 @@ const AuthorDetails = ({ setCat, setPage }) => {
   const { data, isLoading } = useGetDetailAuthorQuery(id);
   const { data: bookAuthor } = useGetBookByAuthorQuery(id);
   const details = data?.payload?.author;
-  //   const formattedDate = new Date(details?.deathDate);
   const birthDateObject = new Date(details?.deathDate);
 
   // استخراج اليوم والشهر والسنة من الكائن Date

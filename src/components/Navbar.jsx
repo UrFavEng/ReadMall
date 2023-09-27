@@ -41,8 +41,6 @@ const Navbar = ({ setCat, setPage }) => {
         console.error(rejected);
       });
   };
-  console.log(errors);
-
   const [show, setShow] = useState(false);
   const handelSearch = (e) => {
     e.preventDefault();
@@ -68,7 +66,6 @@ const Navbar = ({ setCat, setPage }) => {
   const personalDetails = document.querySelector(".personal-details");
 
   const { data: tokendetails, error: errorGetMe } = useGetMeQuery();
-
   return (
     <>
       <div

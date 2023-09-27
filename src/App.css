@@ -62,3 +62,6 @@ body {
 .shadowNavSet {
   box-shadow: rgba(255, 255, 255, 0.25) 0px 0 20px 6px;
 }
+.textShadowReview {
+  text-shadow: 0 0 4px #ef5a5a;
+}

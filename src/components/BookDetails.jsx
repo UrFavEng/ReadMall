@@ -1,16 +1,74 @@
-import React, { useEffect, useState } from "react";
+import StarRatings from "react-star-ratings";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "./Navbar";
-import { useGetBookQuery } from "../store/apiSlice";
+import {
+  useAddReviewMutation,
+  useGetBookQuery,
+  useGetReviewQuery,
+} from "../store/apiSlice";
 import BookCard from "./BookCard";
 import { useNavigate } from "react-router-dom";
 import { RotatingLines } from "react-loader-spinner";
+import Review from "./Review";
 const BookDetails = ({ setCat, setPage }) => {
   const { id } = useParams();
+  const [pageReview, setPageReview] = useState(1);
 
   const { data, isLoading } = useGetBookQuery(id);
+  // console.log(data?.payload?.book?.reviews);
+  const { data: dataReview, isLoading: loadingReview } = useGetReviewQuery({
+    id,
+    pageReview,
+  });
+  // console.log(dataReview?.payload);
   const details = data?.payload?.book;
   const rout = useNavigate();
+  const [userRating, setUserRating] = useState(0);
+  const [review, setReview] = useState();
+  const [loadReview, setLoadReview] = useState(false);
+  const [errAddReview, setErrAddReview] = useState();
+  const [addReview, result] = useAddReviewMutation();
+  const nextPageReview = () => {
+    if (dataReview?.payload?.numOfPages > pageReview) {
+      setPageReview(pageReview + 1);
+    }
+  };
+  const previousPageReview = () => {
+    if (1 < pageReview) {
+      setPageReview(pageReview - 1);
+    }
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      bookId: id,
+      rate: userRating,
+      comment: e.target[0].value,
+    };
+    setLoadReview(true);
+    setErrAddReview("");
+    addReview(data)
+      .unwrap()
+      .then((fulfilled) => {
+        console.log(fulfilled?.payload);
+        e.target[0].value = "";
+        setErrAddReview("");
+        setUserRating(0);
+        setReview("");
+        setLoadReview(false);
+      })
+      .catch((rejected) => {
+        console.error(rejected);
+        setLoadReview(false);
+        if (rejected?.status == 400) {
+          setErrAddReview(rejected?.data?.message?.details[0]?.message);
+        } else {
+          setErrAddReview(rejected?.data?.message);
+        }
+        // setErrAddReview(rejected?.data?.message);
+      });
+  };
   if (isLoading) {
     return (
       <>
@@ -31,6 +89,7 @@ const BookDetails = ({ setCat, setPage }) => {
   return (
     <div className="pb-[50px]">
       <Navbar setCat={setCat} setPage={setPage} />
+      {/* details book */}
       <div className="text-sec capitalize flex flex-col sm:flex-row items-center  gap-[25px] px-[50px] py-[50px]">
         <div className="sm:w-[40%] md:w-[38%] lg:w-[30%] xl:w-[22.5%]">
           <img src={details?.coverUrl} alt="cover book" />
@@ -85,7 +144,70 @@ const BookDetails = ({ setCat, setPage }) => {
           </div>
         </div>
       </div>
-      <div className=" grid grid-cols-2 sm2:grid-cols-3   md:grid-cols-4 xl:grid-cols-5 gap-4 parentCards px-[20px]">
+      {/* add cmnts and rates */}
+      <div className="mx-[20px] md:mx-[50px] my-[20px] px-[10px] sm:px-[20px] md:px-[20px] pt-[20px] pb-[20px] sm:pb-[30px] md:pb-[20px] rounded-[5px] bg-sec">
+        <h1 className="text-[28px] capitalize text-main font-medium mb-[10px]">
+          reviews
+        </h1>
+        <div>
+          <form
+            className="flex  md:justify-center items-start md:items-end flex-wrap flex-col md:flex-row"
+            action=""
+            onSubmit={handleSubmit}
+          >
+            <input
+              type="text"
+              className="mb-[20px] md:mb-[0px]     h-[50px] text-[22px] font-medium sm:pl-[15px] pl-[4px] md:pl-[5px] lg:pl-[5px] placeholder:text-[18px] border-b-[2px] border-b-main w-[100%] md:w-[70%] lg:w-[75%] outline-none bg-transparent text-[#1b1b1b]"
+              placeholder="Enter a review"
+            />
+            <div className="md:w-[30%] lg:w-[25%] text-center ml-[-2px] md:ml-[0px]">
+              <StarRatings
+                rating={userRating}
+                starRatedColor="#EF5A5A"
+                changeRating={setUserRating}
+                numberOfStars={5}
+                name="rating"
+                starDimension="30px"
+                starSpacing="0px"
+              />
+            </div>
+            <input
+              className="w-[85px] sm:w-[18%] md:w-[12%] lg:w-[8%] py-[8px] text-[18px] tracking-[1px] font-medium rounded-[5px] cursor-pointer mt-[15px] md:mt-[40px] bg-main text-sec"
+              type="submit"
+              value={loadReview ? "Loading" : "Submit"}
+            />
+          </form>
+          {errAddReview && (
+            <p className="text-[18px] pt-[10px] md:pt-[0px] capitalize font-medium text-main">
+              {errAddReview}
+            </p>
+          )}
+        </div>
+        {/* Reviews */}
+        <div className="mt-[25px]">
+          {dataReview?.payload?.reviews?.map((review) => (
+            <Review key={review.id} data={review} />
+          ))}
+        </div>
+        {dataReview?.payload?.numOfPages > 1 && (
+          <div className="mt-[20px] flex gap-3">
+            <button
+              onClick={previousPageReview}
+              className="text-sec bg-main py-[5px] px-[12px] rounded-md  border-[1px] border-sec"
+            >
+              Previous
+            </button>
+            <button
+              onClick={nextPageReview}
+              className="bg-sec text-main py-[5px] px-[12px] rounded-md  border-[1px] border-main"
+            >
+              Next
+            </button>
+          </div>
+        )}
+      </div>
+      {/* books reco */}
+      <div className=" grid grid-cols-2 sm2:grid-cols-3   md:grid-cols-4 xl:grid-cols-5 gap-4 parentCards px-[20px] md:px-[50px]">
         <BookCard books={data?.payload?.recommendations} />
       </div>
     </div>

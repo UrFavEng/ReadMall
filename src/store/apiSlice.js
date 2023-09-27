@@ -10,7 +10,7 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
-  tagTypes: ["dataUser"],
+  tagTypes: ["dataUser", "dataReview"],
   endpoints: (builder) => ({
     getCat: builder.query({
       query: () => `/categories/getAllCategories`,
@@ -62,12 +62,44 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["dataUser"],
     }),
+    addReview: builder.mutation({
+      query: (body) => ({
+        url: "reviews/addReview",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["dataReview"],
+    }),
+    getReview: builder.query({
+      query: ({ id, pageReview }) =>
+        `/reviews/getBookReviews/${id}?limit=2&page=${pageReview}`,
+      providesTags: ["dataReview"],
+    }),
+    deleteReview: builder.mutation({
+      query: (id) => ({
+        url: `/reviews/deleteReview/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["dataReview"],
+    }),
+    updateReview: builder.mutation({
+      query: ({ id, body }) => ({
+        url: `/reviews/updateReview/${id}`,
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: ["dataReview"],
+    }),
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 export const {
+  useUpdateReviewMutation,
+  useDeleteReviewMutation,
+  useGetReviewQuery,
+  useAddReviewMutation,
   useRenameMutation,
   useGetCatQuery,
   useGetBooksQuery,

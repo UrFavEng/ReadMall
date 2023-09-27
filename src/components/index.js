@@ -9,7 +9,9 @@ import SearchResulte from "./SearchResulte";
 import AuthorDetails from "./AuthorDetails";
 import PublisherDetails from "./PublisherDetails";
 import NavCat from "./NavCat";
+import Review from "./Review";
 export {
+  Review,
   Navbar,
   Login,
   Signin,
