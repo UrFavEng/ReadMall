@@ -1,7 +1,13 @@
 body {
   background-color: #1b1b1b;
 }
-
+* {
+  transition: all 250ms ease-in-out 0ms;
+  -webkit-transition: all 250ms ease-in-out 0ms;
+  -moz-transition: all 250ms ease-in-out 0ms;
+  -ms-transition: all 250ms ease-in-out 0ms;
+  -o-transition: all 250ms ease-in-out 0ms;
+}
 @media (min-width: 480px) {
   .parentCards div:nth-child(10) {
     grid-column: 2;
