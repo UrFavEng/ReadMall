@@ -15,8 +15,17 @@ export const apiSlice = createApi({
     getCat: builder.query({
       query: () => `/categories/getAllCategories`,
     }),
+
+    getCatByID: builder.query({
+      query: (id) => `/categories/getCategoryById/${id}`,
+    }),
+
     getBooks: builder.query({
       query: ({ cat, page }) => `/books/${cat}?page=${page}&limit=10`,
+    }),
+    getBooksByCat: builder.query({
+      query: ({ id, page }) =>
+        `/books/getByCategoryId/${id}?page=${page}&limit=10`,
     }),
     getBook: builder.query({
       query: (id) => `/books/getById/${id}`,
@@ -64,7 +73,7 @@ export const apiSlice = createApi({
     }),
     addReview: builder.mutation({
       query: (body) => ({
-        url: "reviews/addReview",
+        url: "/reviews/addReview",
         method: "POST",
         body,
       }),
@@ -90,6 +99,13 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["dataReview"],
     }),
+    addFav: builder.mutation({
+      query: (body) => ({
+        url: "/favorites/addFavorite",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -102,6 +118,7 @@ export const {
   useAddReviewMutation,
   useRenameMutation,
   useGetCatQuery,
+  useGetCatByIDQuery,
   useGetBooksQuery,
   useGetBookQuery,
   useGetBookByAuthorQuery,
@@ -113,4 +130,6 @@ export const {
   useSignUpMutation,
   useGetMeQuery,
   useSigninMutation,
+  useAddFavMutation,
+  useGetBooksByCatQuery,
 } = apiSlice;

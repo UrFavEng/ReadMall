@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "./Navbar";
 import {
+  useAddFavMutation,
   useAddReviewMutation,
   useGetBookQuery,
   useGetReviewQuery,
@@ -11,17 +12,19 @@ import BookCard from "./BookCard";
 import { useNavigate } from "react-router-dom";
 import { RotatingLines } from "react-loader-spinner";
 import Review from "./Review";
+import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
+import { HiOutlineShoppingCart, HiShoppingCart } from "react-icons/hi2";
 const BookDetails = ({ setCat, setPage }) => {
   const { id } = useParams();
   const [pageReview, setPageReview] = useState(1);
+  const [fav, setFav] = useState(false);
+  const [cart, setCart] = useState(false);
 
   const { data, isLoading } = useGetBookQuery(id);
-  // console.log(data?.payload?.book?.reviews);
   const { data: dataReview, isLoading: loadingReview } = useGetReviewQuery({
     id,
     pageReview,
   });
-  // console.log(dataReview?.payload);
   const details = data?.payload?.book;
   const rout = useNavigate();
   const [userRating, setUserRating] = useState(0);
@@ -29,6 +32,20 @@ const BookDetails = ({ setCat, setPage }) => {
   const [loadReview, setLoadReview] = useState(false);
   const [errAddReview, setErrAddReview] = useState();
   const [addReview, result] = useAddReviewMutation();
+  const [addFav] = useAddFavMutation();
+  const handleAddFav = () => {
+    const body = {
+      bookId: id,
+    };
+    addFav(body)
+      .unwrap()
+      .then((fulfilled) => {
+        console.log(fulfilled?.payload);
+      })
+      .catch((rejected) => {
+        console.error(rejected);
+      });
+  };
   const nextPageReview = () => {
     if (dataReview?.payload?.numOfPages > pageReview) {
       setPageReview(pageReview + 1);
@@ -90,9 +107,50 @@ const BookDetails = ({ setCat, setPage }) => {
     <div className="pb-[50px]">
       <Navbar setCat={setCat} setPage={setPage} />
       {/* details book */}
-      <div className="text-sec capitalize flex flex-col sm:flex-row items-center  gap-[25px] px-[50px] py-[50px]">
-        <div className="sm:w-[40%] md:w-[38%] lg:w-[30%] xl:w-[22.5%]">
+      <div className="text-sec capitalize flex flex-col sm:flex-row sm:items-start  gap-[25px] px-[50px] py-[50px]">
+        <div className="sm:w-[40%] md:w-[38%] lg:w-[30%] xl:w-[22.5%] flex flex-col items-center sm:items-end">
           <img src={details?.coverUrl} alt="cover book" />
+          <div className="flex gap-1 flex-row-reverse">
+            {fav ? (
+              <div
+                className="mt-[15px]"
+                onClick={() => {
+                  setFav(false);
+                }}
+              >
+                <MdFavorite className="text-[34px] text-main " />
+              </div>
+            ) : (
+              <div
+                className="mt-[15px]"
+                onClick={() => {
+                  setFav(true);
+                  handleAddFav();
+                }}
+              >
+                <MdFavoriteBorder className="text-[34px] text-main " />
+              </div>
+            )}
+            {cart ? (
+              <div
+                className="mt-[15px]"
+                onClick={() => {
+                  setCart(false);
+                }}
+              >
+                <HiShoppingCart className="text-[34px] text-main " />
+              </div>
+            ) : (
+              <div
+                className="mt-[15px]"
+                onClick={() => {
+                  setCart(true);
+                }}
+              >
+                <HiOutlineShoppingCart className="text-[34px] text-main " />
+              </div>
+            )}
+          </div>
         </div>
         <div className=" sm:w-[45%] md:w-[58%] lg:w-[65%] xl:w-[78.5%] text-center sm:text-left">
           <h1 className="text-[28px] sm:text-[19px] md:text-[24px] lg:text-[28px] xl:text-[34px] tracking-[-1px] md:font-normal lg:font-medium leading-[31px] sm:leading-[23px] md:leading-[26px] lg:leading-[30px] xl:leading-[38px] lg:w-[95%] xl:w-[70%] ">

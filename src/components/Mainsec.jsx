@@ -16,12 +16,6 @@ const Mainsec = ({ setId, setCat, setPage }) => {
       <div className="flex min-h-[90vh]">
         <Aside setId={setId} setCat={setCat} setPage={setPage} />
         <Outlet />
-        {/* <Home
-          books={books}
-          maxPage={dataBooks?.payload?.numOfPages}
-          setPage={setPage}
-          page={page}
-        /> */}
       </div>
     </div>
   );

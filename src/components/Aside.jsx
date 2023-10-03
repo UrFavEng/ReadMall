@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useGetCatQuery } from "../store/apiSlice";
 import { RotatingLines } from "react-loader-spinner";
 
-const Aside = ({ setCat, setPage }) => {
+const Aside = ({ setCat, setPage, setPageCat }) => {
   const navigate = useNavigate();
 
   const { data, isLoading, isError } = useGetCatQuery();
@@ -25,9 +25,10 @@ const Aside = ({ setCat, setPage }) => {
         {cats?.map((e) => (
           <li
             onClick={() => {
-              setCat(`getByCategoryId/${e?.id}`);
-              navigate(`/cat/${e?.id}`);
+              // setCat(`getByCategoryId/${e?.id}`);
+              navigate(`/category/${e?.id}`);
               setPage(1);
+              setPageCat(1);
             }}
             key={e?.id}
             className="text-main capitalize text-[24px] font-[500] tracking-[0.5px] border-b-[0.5px] border-[#908f8f] w-[100%] py-[5px] cursor-pointer hover:bg-[#908f8f16]"

@@ -13,10 +13,10 @@ import {
 } from "./components";
 import { useGetBooksQuery, useGetMeQuery } from "./store/apiSlice";
 import { useState } from "react";
+import HomeCat from "./components/HomeCat";
 
 function App() {
   const { data: tokendetails, error: errorGetMe } = useGetMeQuery();
-  // console.log(tokendetails?.payload?.user);
   const [cat, setCat] = useState("getRecentlyUploaded");
   const [page, setPage] = useState(1);
   const [dataUser, setDataUser] = useState();
@@ -24,6 +24,7 @@ function App() {
     cat,
     page,
   });
+  // console.log(dataBooks?.payload);
   return (
     <>
       <Routes>
@@ -42,7 +43,7 @@ function App() {
               />
             }
           />
-          <Route
+          {/* <Route
             path="/cat/:id"
             element={
               <Home
@@ -55,8 +56,12 @@ function App() {
                 setCat={setCat}
               />
             }
-          />
+          /> */}
         </Route>
+        <Route
+          path="/category/:id"
+          element={<HomeCat setCat={setCat} setPage={setPage} />}
+        />
         <Route
           path="/book/:id"
           element={<BookDetails setCat={setCat} setPage={setPage} />}
