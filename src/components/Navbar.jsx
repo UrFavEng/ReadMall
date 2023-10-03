@@ -67,6 +67,7 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
 
   const { data: tokendetails, error: errorGetMe } = useGetMeQuery();
   const [showLinks, setShowLinks] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
 
   return (
     <>
@@ -121,7 +122,8 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
             <>
               <AiFillSetting
                 onClick={() => {
-                  personalDetails?.classList?.toggle("hidden");
+                  // personalDetails?.classList?.toggle("hidden");
+                  setShowDetails(!showDetails);
                 }}
                 className="hidden md:block text-sec text-[28px] sm:text-[35px] cursor-pointer"
               />
@@ -181,7 +183,8 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
                       onClick={() => {
                         // navcat.classList.add("hidden");
                         setShowLinks(false);
-                        personalDetails?.classList?.toggle("hidden");
+                        // personalDetails?.classList?.toggle("hidden");
+                        setShowDetails(true);
                       }}
                       className="text-sec hover:bg-[#000000d5] py-[12px] flex justify-center items-center gap-1 bg-[#777] capitalize text-[22px] font-[500] tracking-[1px] border-b-[0.5px] border-[#908f8f] w-[100%]   px-[28px] cursor-pointer "
                     >
@@ -280,124 +283,127 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
             </ul>
           </div>
           {/* personal-details */}
-          <div className=" z-40 hidden personal-details  ">
-            <div
-              onClick={() => {
-                personalDetails?.classList?.toggle("hidden");
-              }}
-              className="personal-details-overlay"
-            ></div>
-            <ul className="text-sec rounded-[15px] overflow-hidden w-[300px] sm:w-[380px] z-[41] relative border-[2px] shadowNavSet border-sec  bg-main px-[20px] sm:px-[50px] pt-[30px] sm:pt-[40px] pb-[30px] sm:pb-[40px]">
-              <li className="flex gap-[15px] items-center mb-[15px]">
-                <img
-                  className="w-[55px] h-[55px] rounded-[50%]"
-                  src={tokendetails?.payload?.user?.avatarUrl}
-                  alt=""
-                />
-                <span className=" flex items-center gap-[5px] text-[22px] font-medium capitalize tracking-[1px] text-center">
-                  {tokendetails?.payload?.user?.fullname}{" "}
-                  {tokendetails?.payload?.user?.verified && (
-                    <span className="text-white text-[14px] mt-[5px]">
-                      <MdVerified />
-                    </span>
-                  )}
-                </span>
-              </li>
-              <li className="mb-[8px] text-[18px] ">
-                Email : {tokendetails?.payload?.user?.email}
-              </li>
-              {/* btns for edit pass and name */}
-              <li className="mt-[25px] flex gap-[30px] cursor-pointer">
-                <button
-                  onClick={() => {
-                    setShowInputPass(true);
-                    setShowInputName(false);
-                  }}
-                  className="bg-sec text-main py-[5px] px-[8px] rounded-[6px] cursor-pointer"
-                >
-                  Reset Password
-                </button>{" "}
-                <button
-                  onClick={() => {
-                    setReset("name");
-                    setShowInputPass(false);
-                    setShowInputName(true);
-                  }}
-                  className="bg-sec text-main py-[5px] px-[8px] rounded-[6px] cursor-pointer capitalize"
-                >
-                  Edit your name
-                </button>
-              </li>
-              {/* edit password */}
-              {showInputPass && (
-                <li>Working</li>
-                // <li className="pt-3">
-                //   <form action="" className="flex  items-center">
-                //     <input
-                //       className="border-none pl-[4px] placeholder:text-[14px] placeholder:text-main bg-sec text-main outline-none w-[65%] h-[30px]"
-                //       type="password"
-                //       placeholder={`Enter your new password`}
-                //     />
-                //     <input
-                //       className="border  border-sec  h-[30px] cursor-pointer outline-none w-[25%] py-[2px] px-[4px]"
-                //       type="submit"
-                //       value={"Submit"}
-                //     />
-                //     <span
-                //       className="pl-[5px] cursor-pointer text-sec"
-                //       onClick={() => {
-                //         setShowInputPass(false);
-                //         setShowInputName(false);
-                //       }}
-                //     >
-                //       <AiFillCloseCircle />
-                //     </span>
-                //   </form>
-                // </li>
-              )}
-              {/* edit name */}
-              {showInputName && (
-                <li className="pt-3">
-                  <form
-                    action=""
-                    className="flex  items-center"
-                    onSubmit={handleSubmit(handleRename)}
-                    noValidate
-                  >
-                    <input
-                      {...register("fullname", {
-                        required: "Name is required",
-                      })}
-                      className="border-none pl-[6px] text-[17px] capitalize font-medium placeholder:text-[14px] placeholder:text-main bg-sec text-main outline-none w-[65%] h-[30px]"
-                      type="text"
-                      name="fullname"
-                      placeholder={`Enter your new name`}
-                    />
-                    <input
-                      className="border  border-sec  h-[30px] cursor-pointer outline-none w-[25%] py-[2px] px-[4px]"
-                      value={`${loading ? "Loading..." : "Submit"}`}
-                      type={"Submit"}
-                    />
-                    <span
-                      className="pl-[5px] cursor-pointer text-sec"
-                      onClick={() => {
-                        setShowInputPass(false);
-                        setShowInputName(false);
-                        setErrName(false);
-                      }}
-                    >
-                      <AiFillCloseCircle />
-                    </span>
-                  </form>
-                  {errName && (
-                    <p className="text-sec capitalize text-[12px] pt-[10px] font-medium">
-                      "fullname" length must be at least 4 characters long
-                    </p>
-                  )}
+          {showDetails && (
+            <div className=" z-40 personal-details  ">
+              <div
+                onClick={() => {
+                  // personalDetails?.classList?.toggle("hidden");
+                  setShowDetails(false);
+                }}
+                className="personal-details-overlay"
+              ></div>
+              <ul className="text-sec rounded-[15px] overflow-hidden w-[300px] sm:w-[380px] z-[41] relative border-[2px] shadowNavSet border-sec  bg-main px-[20px] sm:px-[50px] pt-[30px] sm:pt-[40px] pb-[30px] sm:pb-[40px]">
+                <li className="flex gap-[15px] items-center mb-[15px]">
+                  <img
+                    className="w-[55px] h-[55px] rounded-[50%]"
+                    src={tokendetails?.payload?.user?.avatarUrl}
+                    alt=""
+                  />
+                  <span className=" flex items-center gap-[5px] text-[22px] font-medium capitalize tracking-[1px] text-center">
+                    {tokendetails?.payload?.user?.fullname}{" "}
+                    {tokendetails?.payload?.user?.verified && (
+                      <span className="text-white text-[14px] mt-[5px]">
+                        <MdVerified />
+                      </span>
+                    )}
+                  </span>
                 </li>
-              )}
-            </ul>
-          </div>
+                <li className="mb-[8px] text-[18px] ">
+                  Email : {tokendetails?.payload?.user?.email}
+                </li>
+                {/* btns for edit pass and name */}
+                <li className="mt-[25px] flex gap-[30px] cursor-pointer">
+                  <button
+                    onClick={() => {
+                      setShowInputPass(true);
+                      setShowInputName(false);
+                    }}
+                    className="bg-sec text-main py-[5px] px-[8px] rounded-[6px] cursor-pointer"
+                  >
+                    Reset Password
+                  </button>{" "}
+                  <button
+                    onClick={() => {
+                      setReset("name");
+                      setShowInputPass(false);
+                      setShowInputName(true);
+                    }}
+                    className="bg-sec text-main py-[5px] px-[8px] rounded-[6px] cursor-pointer capitalize"
+                  >
+                    Edit your name
+                  </button>
+                </li>
+                {/* edit password */}
+                {showInputPass && (
+                  <li>Working</li>
+                  // <li className="pt-3">
+                  //   <form action="" className="flex  items-center">
+                  //     <input
+                  //       className="border-none pl-[4px] placeholder:text-[14px] placeholder:text-main bg-sec text-main outline-none w-[65%] h-[30px]"
+                  //       type="password"
+                  //       placeholder={`Enter your new password`}
+                  //     />
+                  //     <input
+                  //       className="border  border-sec  h-[30px] cursor-pointer outline-none w-[25%] py-[2px] px-[4px]"
+                  //       type="submit"
+                  //       value={"Submit"}
+                  //     />
+                  //     <span
+                  //       className="pl-[5px] cursor-pointer text-sec"
+                  //       onClick={() => {
+                  //         setShowInputPass(false);
+                  //         setShowInputName(false);
+                  //       }}
+                  //     >
+                  //       <AiFillCloseCircle />
+                  //     </span>
+                  //   </form>
+                  // </li>
+                )}
+                {/* edit name */}
+                {showInputName && (
+                  <li className="pt-3">
+                    <form
+                      action=""
+                      className="flex  items-center"
+                      onSubmit={handleSubmit(handleRename)}
+                      noValidate
+                    >
+                      <input
+                        {...register("fullname", {
+                          required: "Name is required",
+                        })}
+                        className="border-none pl-[6px] text-[17px] capitalize font-medium placeholder:text-[14px] placeholder:text-main bg-sec text-main outline-none w-[65%] h-[30px]"
+                        type="text"
+                        name="fullname"
+                        placeholder={`Enter your new name`}
+                      />
+                      <input
+                        className="border  border-sec  h-[30px] cursor-pointer outline-none w-[25%] py-[2px] px-[4px]"
+                        value={`${loading ? "Loading..." : "Submit"}`}
+                        type={"Submit"}
+                      />
+                      <span
+                        className="pl-[5px] cursor-pointer text-sec"
+                        onClick={() => {
+                          setShowInputPass(false);
+                          setShowInputName(false);
+                          setErrName(false);
+                        }}
+                      >
+                        <AiFillCloseCircle />
+                      </span>
+                    </form>
+                    {errName && (
+                      <p className="text-sec capitalize text-[12px] pt-[10px] font-medium">
+                        "fullname" length must be at least 4 characters long
+                      </p>
+                    )}
+                  </li>
+                )}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
       {/* form for small screen */}
