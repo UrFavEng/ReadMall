@@ -60,7 +60,7 @@ body {
 .personal-details-overlay {
   position: absolute;
   top: -650%;
-  left: -750px;
+  left: -750%;
   background-color: rgba(0, 0, 0, 0.372);
   width: 802vh;
   height: 271vh;
