@@ -106,6 +106,25 @@ export const apiSlice = createApi({
         body,
       }),
     }),
+    deleteFav: builder.mutation({
+      query: (id) => ({
+        url: `/favorites/deleteFavorite/${id}`,
+        method: "DELETE",
+      }),
+    }),
+    addCart: builder.mutation({
+      query: (body) => ({
+        url: "/carts/addToCart",
+        method: "POST",
+        body,
+      }),
+    }),
+    deleteCart: builder.mutation({
+      query: (id) => ({
+        url: `/carts/deleteFromCart/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -132,4 +151,7 @@ export const {
   useSigninMutation,
   useAddFavMutation,
   useGetBooksByCatQuery,
+  useDeleteFavMutation,
+  useAddCartMutation,
+  useDeleteCartMutation,
 } = apiSlice;

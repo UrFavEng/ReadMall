@@ -3,8 +3,11 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "./Navbar";
 import {
+  useAddCartMutation,
   useAddFavMutation,
   useAddReviewMutation,
+  useDeleteCartMutation,
+  useDeleteFavMutation,
   useGetBookQuery,
   useGetReviewQuery,
 } from "../store/apiSlice";
@@ -21,6 +24,7 @@ const BookDetails = ({ setCat, setPage }) => {
   const [cart, setCart] = useState(false);
 
   const { data, isLoading } = useGetBookQuery(id);
+  console.log(data);
   const { data: dataReview, isLoading: loadingReview } = useGetReviewQuery({
     id,
     pageReview,
@@ -31,8 +35,11 @@ const BookDetails = ({ setCat, setPage }) => {
   const [review, setReview] = useState();
   const [loadReview, setLoadReview] = useState(false);
   const [errAddReview, setErrAddReview] = useState();
-  const [addReview, result] = useAddReviewMutation();
+  const [addReview] = useAddReviewMutation();
+  const [deleteFav] = useDeleteFavMutation();
   const [addFav] = useAddFavMutation();
+  const [addCart] = useAddCartMutation();
+  const [deleteCart] = useDeleteCartMutation();
   const handleAddFav = () => {
     const body = {
       bookId: id,
@@ -40,7 +47,40 @@ const BookDetails = ({ setCat, setPage }) => {
     addFav(body)
       .unwrap()
       .then((fulfilled) => {
-        console.log(fulfilled?.payload);
+        console.log(fulfilled);
+      })
+      .catch((rejected) => {
+        console.error(rejected);
+      });
+  };
+  const deleteFavv = () => {
+    deleteFav(id)
+      .unwrap()
+      .then((fulfilled) => {
+        console.log(fulfilled);
+      })
+      .catch((rejected) => {
+        console.error(rejected);
+      });
+  };
+  const handleAddCrt = () => {
+    const body = {
+      bookId: id,
+    };
+    addCart(body)
+      .unwrap()
+      .then((fulfilled) => {
+        console.log(fulfilled);
+      })
+      .catch((rejected) => {
+        console.error(rejected);
+      });
+  };
+  const handleDeleteCart = () => {
+    deleteCart(id)
+      .unwrap()
+      .then((fulfilled) => {
+        console.log(fulfilled);
       })
       .catch((rejected) => {
         console.error(rejected);
@@ -116,6 +156,7 @@ const BookDetails = ({ setCat, setPage }) => {
                 className="mt-[15px]"
                 onClick={() => {
                   setFav(false);
+                  deleteFavv();
                 }}
               >
                 <MdFavorite className="text-[34px] text-main " />
@@ -136,6 +177,7 @@ const BookDetails = ({ setCat, setPage }) => {
                 className="mt-[15px]"
                 onClick={() => {
                   setCart(false);
+                  handleDeleteCart();
                 }}
               >
                 <HiShoppingCart className="text-[34px] text-main " />
@@ -145,6 +187,7 @@ const BookDetails = ({ setCat, setPage }) => {
                 className="mt-[15px]"
                 onClick={() => {
                   setCart(true);
+                  handleAddCrt();
                 }}
               >
                 <HiOutlineShoppingCart className="text-[34px] text-main " />
