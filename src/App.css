@@ -59,11 +59,11 @@ body {
 .navcat div,
 .personal-details-overlay {
   position: absolute;
-  top: -395px;
+  top: -650%;
   left: -750px;
   background-color: rgba(0, 0, 0, 0.372);
   width: 802vh;
-  height: 182vh;
+  height: 271vh;
 }
 .shadowNavSet {
   box-shadow: rgba(255, 255, 255, 0.25) 0px 0 20px 6px;
