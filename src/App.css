@@ -59,7 +59,8 @@ body {
 .navcat div,
 .personal-details-overlay {
   position: absolute;
-  top: -640%;
+  top: -397%;
+
   left: -750%;
   background-color: rgba(0, 0, 0, 0.372);
   width: 802vh;

@@ -25,6 +25,7 @@ const BookDetails = ({ setCat, setPage }) => {
 
   const { data, isLoading } = useGetBookQuery(id);
   console.log(data);
+  console.log(data);
   const { data: dataReview, isLoading: loadingReview } = useGetReviewQuery({
     id,
     pageReview,
