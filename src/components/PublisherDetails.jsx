@@ -13,7 +13,7 @@ const PublisherDetails = ({ setCat, setPage }) => {
   const { data, isLoading } = useGetDetailPublisherQuery(id);
   const { data: books } = useGetBooksPublisherQuery(id);
   const details = data?.payload?.publisher;
-  console.log(details);
+  // console.log(details);
   if (isLoading) {
     return (
       <>

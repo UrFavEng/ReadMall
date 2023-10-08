@@ -66,7 +66,7 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
   const personalDetails = document.querySelector(".personal-details");
 
   const { data: tokendetails, error: errorGetMe } = useGetMeQuery();
-  console.log(tokendetails);
+  // console.log(tokendetails);
   const [showLinks, setShowLinks] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
 

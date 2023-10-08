@@ -10,7 +10,7 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
-  tagTypes: ["dataUser", "dataReview"],
+  tagTypes: ["dataUser", "dataReview", "fav"],
   endpoints: (builder) => ({
     getCat: builder.query({
       query: () => `/categories/getAllCategories`,
@@ -29,6 +29,7 @@ export const apiSlice = createApi({
     }),
     getBook: builder.query({
       query: (id) => `/books/getById/${id}`,
+      providesTags: ["fav"],
     }),
     getBookByAuthor: builder.query({
       query: (id) => `/books/getByAuthorId/${id}?limit=10`,
@@ -51,7 +52,6 @@ export const apiSlice = createApi({
     signUp: builder.mutation({
       query: (body) => ({
         url: "/users/signup",
-
         method: "POST",
         body,
       }),
@@ -105,12 +105,14 @@ export const apiSlice = createApi({
         method: "POST",
         body,
       }),
+      invalidatesTags: ["fav"],
     }),
     deleteFav: builder.mutation({
       query: (id) => ({
         url: `/favorites/deleteFavorite/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["fav"],
     }),
     addCart: builder.mutation({
       query: (body) => ({

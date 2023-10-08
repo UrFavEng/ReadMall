@@ -1,16 +1,11 @@
 import { Link, useParams } from "react-router-dom";
 import BookCard from "./BookCard";
 import { RotatingLines } from "react-loader-spinner";
-import { useGetCatByIDQuery } from "../store/apiSlice";
-
 const Home = ({ books, maxPage, setPage, page, setCat, loadingHomePage }) => {
   const { id } = useParams();
-  const { data } = useGetCatByIDQuery(id);
-  console.log(data);
   const nextPage = () => {
     if (page < maxPage) {
       setPage(page + 1);
-      console.log(books);
     }
   };
   const previousPage = () => {

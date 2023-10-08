@@ -7,7 +7,7 @@ const NavCat = ({ setCat, setPage }) => {
 
   const { data, isLoading, isError } = useGetCatQuery();
   const cats = data?.payload?.categories;
-  console.log(cats);
+  // console.log(cats);
   return (
     <div className="absolute top-[163.9%] sm2:top-[156.5%] right-[0px] z-40 md:hidden ">
       {" "}

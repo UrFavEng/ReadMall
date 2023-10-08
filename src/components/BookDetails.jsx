@@ -20,12 +20,11 @@ import { HiOutlineShoppingCart, HiShoppingCart } from "react-icons/hi2";
 const BookDetails = ({ setCat, setPage }) => {
   const { id } = useParams();
   const [pageReview, setPageReview] = useState(1);
-  const [fav, setFav] = useState(false);
-  const [cart, setCart] = useState(false);
+  // const [fav, setFav] = useState(false);
+  const [loadFav, setLoadFav] = useState(false);
+  // const [cart, setCart] = useState(false);
 
   const { data, isLoading } = useGetBookQuery(id);
-  console.log(data);
-  console.log(data);
   const { data: dataReview, isLoading: loadingReview } = useGetReviewQuery({
     id,
     pageReview,
@@ -42,26 +41,36 @@ const BookDetails = ({ setCat, setPage }) => {
   const [addCart] = useAddCartMutation();
   const [deleteCart] = useDeleteCartMutation();
   const handleAddFav = () => {
+    setLoadFav(true);
     const body = {
       bookId: id,
     };
+    console.log(loadFav);
     addFav(body)
       .unwrap()
       .then((fulfilled) => {
+        setLoadFav(false);
+        console.log(loadFav);
         console.log(fulfilled);
       })
       .catch((rejected) => {
         console.error(rejected);
+        setLoadFav(false);
       });
   };
   const deleteFavv = () => {
+    setLoadFav(true);
+
     deleteFav(id)
       .unwrap()
       .then((fulfilled) => {
+        setLoadFav(false);
+
         console.log(fulfilled);
       })
       .catch((rejected) => {
         console.error(rejected);
+        setLoadFav(false);
       });
   };
   const handleAddCrt = () => {
@@ -124,8 +133,91 @@ const BookDetails = ({ setCat, setPage }) => {
         } else {
           setErrAddReview(rejected?.data?.message);
         }
-        // setErrAddReview(rejected?.data?.message);
       });
+  };
+  const handleBuy = () => {
+    if (data?.payload?.book?.toBuy) {
+      if (data?.payload?.book?.inCart) {
+        return (
+          <div
+            className="mt-[15px]"
+            onClick={() => {
+              setCart(false);
+              handleDeleteCart();
+            }}
+          >
+            <HiShoppingCart className="text-[34px] text-main " />
+          </div>
+        );
+      } else {
+        return (
+          <div
+            className="mt-[15px]"
+            onClick={() => {
+              setCart(true);
+              handleAddCrt();
+            }}
+          >
+            <HiOutlineShoppingCart className="text-[34px] text-main " />
+          </div>
+        );
+      }
+    } else {
+      return;
+    }
+  };
+  const handleFav = () => {
+    if (data?.payload?.book?.isFav) {
+      if (loadFav) {
+        return (
+          <div className="mt-[15px]">
+            <RotatingLines
+              strokeColor="#EF5A5A"
+              strokeWidth="5"
+              animationDuration="0.75"
+              width="30"
+              visible={true}
+            />
+          </div>
+        );
+      } else {
+        return (
+          <div
+            className="mt-[15px]"
+            onClick={() => {
+              deleteFavv();
+            }}
+          >
+            <MdFavorite className="text-[34px] text-main " />
+          </div>
+        );
+      }
+    } else {
+      if (loadFav) {
+        return (
+          <div className="mt-[15px]">
+            <RotatingLines
+              strokeColor="#EF5A5A"
+              strokeWidth="5"
+              animationDuration="0.75"
+              width="30"
+              visible={true}
+            />
+          </div>
+        );
+      } else {
+        return (
+          <div
+            className="mt-[15px]"
+            onClick={() => {
+              handleAddFav();
+            }}
+          >
+            <MdFavoriteBorder className="text-[34px] text-main " />
+          </div>
+        );
+      }
+    }
   };
   if (isLoading) {
     return (
@@ -147,12 +239,11 @@ const BookDetails = ({ setCat, setPage }) => {
   return (
     <div className="pb-[50px]">
       <Navbar setCat={setCat} setPage={setPage} />
-      {/* details book */}
       <div className="text-sec capitalize flex flex-col sm:flex-row sm:items-start  gap-[25px] px-[50px] py-[50px]">
         <div className="sm:w-[40%] md:w-[38%] lg:w-[30%] xl:w-[22.5%] flex flex-col items-center sm:items-end">
           <img src={details?.coverUrl} alt="cover book" />
           <div className="flex gap-1 flex-row-reverse">
-            {fav ? (
+            {/* {data?.payload?.book?.isFav ? (
               <div
                 className="mt-[15px]"
                 onClick={() => {
@@ -172,28 +263,9 @@ const BookDetails = ({ setCat, setPage }) => {
               >
                 <MdFavoriteBorder className="text-[34px] text-main " />
               </div>
-            )}
-            {cart ? (
-              <div
-                className="mt-[15px]"
-                onClick={() => {
-                  setCart(false);
-                  handleDeleteCart();
-                }}
-              >
-                <HiShoppingCart className="text-[34px] text-main " />
-              </div>
-            ) : (
-              <div
-                className="mt-[15px]"
-                onClick={() => {
-                  setCart(true);
-                  handleAddCrt();
-                }}
-              >
-                <HiOutlineShoppingCart className="text-[34px] text-main " />
-              </div>
-            )}
+            )} */}
+            {handleFav()}
+            {handleBuy()}
           </div>
         </div>
         <div className=" sm:w-[45%] md:w-[58%] lg:w-[65%] xl:w-[78.5%] text-center sm:text-left">
