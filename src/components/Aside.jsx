@@ -1,6 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useGetCatQuery } from "../store/apiSlice";
-import { RotatingLines } from "react-loader-spinner";
+import { MdFavoriteBorder } from "react-icons/md";
+import { HiOutlineShoppingCart } from "react-icons/hi2";
 
 const Aside = ({ setCat, setPage, setPageCat }) => {
   const navigate = useNavigate();
@@ -25,9 +26,7 @@ const Aside = ({ setCat, setPage, setPageCat }) => {
         {cats?.map((e) => (
           <li
             onClick={() => {
-              // setCat(`getByCategoryId/${e?.id}`);
               navigate(`/category/${e?.id}`);
-              setPage(1);
               setPageCat(1);
             }}
             key={e?.id}
@@ -36,6 +35,30 @@ const Aside = ({ setCat, setPage, setPageCat }) => {
             {e?.categoryName}
           </li>
         ))}
+        {localStorage.getItem("token") && (
+          <>
+            <li
+              onClick={() => {
+                navigate(`/favorites/allFavorites/books`);
+                setPageCat(1);
+              }}
+              className="text-main flex  gap-1 justify-center items-center capitalize text-[24px] font-[500] tracking-[0.5px] border-b-[0.5px] border-[#908f8f] w-[100%] py-[5px] cursor-pointer hover:bg-[#908f8f16]"
+            >
+              Favourite{" "}
+              <MdFavoriteBorder className="text-[26px] text-main mt-[6px]" />
+            </li>
+            <li
+              onClick={() => {
+                navigate(`/carts/allCartBooks/books`);
+                setPageCat(1);
+              }}
+              className="text-main flex  gap-1 justify-center items-center capitalize text-[24px] font-[500] tracking-[0.5px] border-b-[0.5px] border-[#908f8f] w-[100%] py-[5px] cursor-pointer hover:bg-[#908f8f16]"
+            >
+              Cart{" "}
+              <HiOutlineShoppingCart className="text-[26px] text-main mt-[6px] " />
+            </li>
+          </>
+        )}
       </ul>
     </div>
   );

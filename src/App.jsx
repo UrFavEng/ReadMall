@@ -3,6 +3,7 @@ import "./App.css";
 import {
   AuthorDetails,
   BookDetails,
+  FavOrCrt,
   Home,
   Login,
   Mainsec,
@@ -20,15 +21,25 @@ function App() {
   const [cat, setCat] = useState("getRecentlyUploaded");
   const [page, setPage] = useState(1);
   const [dataUser, setDataUser] = useState();
+  const [pageCat, setPageCat] = useState(1);
+
   const { data: dataBooks, isLoading: loadingHomePage } = useGetBooksQuery({
     cat,
     page,
   });
-  // console.log(dataBooks?.payload);
   return (
     <>
       <Routes>
-        <Route path="/" element={<Mainsec setCat={setCat} setPage={setPage} />}>
+        <Route
+          path="/"
+          element={
+            <Mainsec
+              setCat={setCat}
+              setPage={setPage}
+              setPageCat={setPageCat}
+            />
+          }
+        >
           <Route
             path="/"
             element={
@@ -43,35 +54,40 @@ function App() {
               />
             }
           />
-          {/* <Route
-            path="/cat/:id"
-            element={
-              <Home
-                loadingHomePage={loadingHomePage}
-                cat={cat}
-                books={dataBooks?.payload?.books}
-                maxPage={dataBooks?.payload?.numOfPages}
-                setPage={setPage}
-                page={page}
-                setCat={setCat}
-              />
-            }
-          /> */}
         </Route>
         <Route
           path="/category/:id"
-          element={<HomeCat setCat={setCat} setPage={setPage} />}
+          element={
+            <HomeCat
+              setCat={setCat}
+              setPage={setPage}
+              pageCat={pageCat}
+              setPageCat={setPageCat}
+            />
+          }
         />
         <Route
           path="/book/:id"
-          element={<BookDetails setCat={setCat} setPage={setPage} />}
+          element={
+            <BookDetails
+              setCat={setCat}
+              setPage={setPage}
+              setPageCat={setPageCat}
+            />
+          }
         />
         <Route path="/login" element={<Login />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup setDataUser={setDataUser} />} />
         <Route
           path="/searchresulte/:name"
-          element={<SearchResulte setCat={setCat} setPage={setPage} />}
+          element={
+            <SearchResulte
+              setCat={setCat}
+              setPage={setPage}
+              setPageCat={setPageCat}
+            />
+          }
         />
         <Route
           path="/author/:id"
@@ -80,6 +96,16 @@ function App() {
         <Route
           path="/publisher/:id"
           element={<PublisherDetails setCat={setCat} setPage={setPage} />}
+        />
+        <Route
+          path="/:type/:name/books"
+          element={
+            <FavOrCrt
+              setCat={setCat}
+              setPage={setPage}
+              setPageCat={setPageCat}
+            />
+          }
         />
       </Routes>
     </>

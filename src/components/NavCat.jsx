@@ -1,4 +1,3 @@
-import React from "react";
 import { useGetCatQuery } from "../store/apiSlice";
 import { useNavigate } from "react-router-dom";
 

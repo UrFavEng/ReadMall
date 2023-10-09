@@ -73,6 +73,7 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
   return (
     <>
       <div
+        id={"idNav"}
         className={`bg-main flex justify-around   ${
           show ? "pb-[10px]" : "pb-[15px]"
         }  pt-[15px] md:py-[20px] items-center`}
@@ -83,6 +84,7 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
             setCat("getRecentlyUploaded");
             setPage(1);
             setShow(false);
+            setPageCat(1);
           }}
         >
           <Link to="/"> ReadMall</Link>

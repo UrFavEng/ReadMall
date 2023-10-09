@@ -10,6 +10,7 @@ import AuthorDetails from "./AuthorDetails";
 import PublisherDetails from "./PublisherDetails";
 import NavCat from "./NavCat";
 import Review from "./Review";
+import FavOrCrt from "./FavOrCrt";
 export {
   Review,
   Navbar,
@@ -23,4 +24,5 @@ export {
   AuthorDetails,
   PublisherDetails,
   NavCat,
+  FavOrCrt,
 };

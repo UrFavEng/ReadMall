@@ -1,11 +1,10 @@
-import React from "react";
 import Navbar from "./Navbar";
 import { useParams } from "react-router-dom";
 import BookCard from "./BookCard";
 import { useGetSearchBookQuery } from "../store/apiSlice";
 import { RotatingLines } from "react-loader-spinner";
 
-const SearchResulte = ({ setCat, setPage }) => {
+const SearchResulte = ({ setCat, setPage, setPageCat }) => {
   let { name } = useParams();
 
   const { data: dataBooks, isLoading } = useGetSearchBookQuery(name);
@@ -14,7 +13,7 @@ const SearchResulte = ({ setCat, setPage }) => {
   if (isLoading) {
     return (
       <>
-        <Navbar setCat={setCat} setPage={setPage} />
+        <Navbar setCat={setCat} setPage={setPage} setPageCat={setPageCat} />
         <div className="flex justify-center items-center h-[92vh]">
           <RotatingLines
             strokeColor="grey"

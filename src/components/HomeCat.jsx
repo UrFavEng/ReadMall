@@ -6,22 +6,22 @@ import Aside from "./Aside";
 import BookCard from "./BookCard";
 import { RotatingLines } from "react-loader-spinner";
 
-const HomeCat = ({ setCat, setPage }) => {
+const HomeCat = ({ setCat, setPage, pageCat, setPageCat }) => {
   const { id } = useParams();
-  const [page, setPageCat] = useState(1);
+  // const [pageCat, setPageCat] = useState(1);
 
-  const { data, isLoading } = useGetBooksByCatQuery({ id, page });
-  console.log(data?.payload);
+  const { data, isLoading } = useGetBooksByCatQuery({ id, pageCat });
+  console.log(data?.payload, isLoading);
 
   const nextPage = () => {
-    if (page < data?.payload?.numOfPages) {
-      setPageCat(page + 1);
+    if (pageCat < data?.payload?.numOfPages) {
+      setPageCat(pageCat + 1);
       console.log(data?.payload?.books);
     }
   };
   const previousPage = () => {
-    if (page > 1) {
-      setPageCat(page - 1);
+    if (pageCat > 1) {
+      setPageCat(pageCat - 1);
     }
   };
   return (

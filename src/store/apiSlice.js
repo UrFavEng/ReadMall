@@ -10,26 +10,24 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
-  tagTypes: ["dataUser", "dataReview", "fav"],
+  tagTypes: ["dataUser", "dataReview", "fav", "crt"],
   endpoints: (builder) => ({
     getCat: builder.query({
       query: () => `/categories/getAllCategories`,
     }),
-
     getCatByID: builder.query({
       query: (id) => `/categories/getCategoryById/${id}`,
     }),
-
     getBooks: builder.query({
       query: ({ cat, page }) => `/books/${cat}?page=${page}&limit=10`,
     }),
     getBooksByCat: builder.query({
-      query: ({ id, page }) =>
-        `/books/getByCategoryId/${id}?page=${page}&limit=10`,
+      query: ({ id, pageCat }) =>
+        `/books/getByCategoryId/${id}?page=${pageCat}&limit=10`,
     }),
     getBook: builder.query({
       query: (id) => `/books/getById/${id}`,
-      providesTags: ["fav"],
+      providesTags: ["fav", "dataReview", "crt"],
     }),
     getBookByAuthor: builder.query({
       query: (id) => `/books/getByAuthorId/${id}?limit=10`,
@@ -120,12 +118,19 @@ export const apiSlice = createApi({
         method: "POST",
         body,
       }),
+      invalidatesTags: ["crt"],
     }),
     deleteCart: builder.mutation({
       query: (id) => ({
         url: `/carts/deleteFromCart/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["crt"],
+    }),
+    getFavOrCart: builder.query({
+      query: ({ type, name, pageBook }) =>
+        `/${type}/${name}?limit=10&page=${pageBook}`,
+      providesTags: ["fav", "crt"],
     }),
   }),
 });
@@ -156,4 +161,5 @@ export const {
   useDeleteFavMutation,
   useAddCartMutation,
   useDeleteCartMutation,
+  useGetFavOrCartQuery,
 } = apiSlice;

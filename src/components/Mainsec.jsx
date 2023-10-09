@@ -1,20 +1,22 @@
-import { useEffect, useState } from "react";
-import { useGetBooksQuery } from "../store/apiSlice";
 import Aside from "./Aside";
-import Home from "./Home";
 import Navbar from "./Navbar";
 import { Outlet } from "react-router-dom";
 
-const Mainsec = ({ setId, setCat, setPage }) => {
+const Mainsec = ({ setId, setCat, setPage, setPageCat }) => {
   //   if (isLoading) {
   //     return "Loading";
   //   }
 
   return (
     <div className="h-[auto] ">
-      <Navbar setCat={setCat} setPage={setPage} />
+      <Navbar setCat={setCat} setPage={setPage} setPageCat={setPageCat} />
       <div className="flex min-h-[90vh]">
-        <Aside setId={setId} setCat={setCat} setPage={setPage} />
+        <Aside
+          setId={setId}
+          setCat={setCat}
+          setPage={setPage}
+          setPageCat={setPageCat}
+        />
         <Outlet />
       </div>
     </div>
