@@ -311,7 +311,7 @@ const BookDetails = ({ setCat, setPage, setPageCat }) => {
             Author : {details?.author?.authorName}
           </p>
           <p className="text-[16px] font-light  pl-[5px]">
-            Language : {details?.lang}
+            Language : {details?.lang == "ar" ? "Arabic" : "English"}
           </p>
           <p className="text-[16px] font-light  pl-[5px]">
             {details?.pages} pages

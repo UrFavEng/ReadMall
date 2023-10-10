@@ -144,7 +144,7 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
             </>
           )}
           {showLinks && (
-            <div className="navcat ani-show-hide z-40  md:hidden navcat w-[250px] shadowNavSet sm2:w-[300px] rounded-[15px]">
+            <div className="navcat ani-show-hide z-40  md:hidden navcat w-[220px] shadowNavSet sm2:w-[240px] rounded-[15px]">
               <div
                 onClick={() => {
                   // navcat?.classList?.toggle("hidden");
@@ -176,7 +176,7 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
                       // navcat.classList.add("hidden");
                       setShowLinks(false);
                     }}
-                    className="text-sec hover:bg-[#000000d5] py-[12px] flex justify-center items-center gap-1 bg-[#777] capitalize text-[22px] font-[500] tracking-[1px] border-b-[0.5px] border-[#908f8f] w-[100%]   px-[28px] cursor-pointer "
+                    className="text-sec hover:bg-[#000000d5] py-[12px] flex justify-center items-center gap-1 bg-[#777] capitalize text-[21px] font-[500] tracking-[1px] border-b-[0.5px] border-[#908f8f] w-[100%]   px-[28px] cursor-pointer "
                   >
                     Sign in / Sign up
                   </li>
@@ -184,16 +184,34 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
                   <>
                     <li
                       onClick={() => {
-                        // navcat.classList.add("hidden");
+                        navigate(`/favorites/allFavorites/books`);
+                        setPageCat(1);
                         setShowLinks(false);
-                        // personalDetails?.classList?.toggle("hidden");
+                      }}
+                      className="text-sec hover:bg-[#000000b3] py-[10px] sm2:py-[12px] bg-[#8a8a8a] capitalize text-[22px] font-[500] tracking-[1px] border-b-[0.5px] border-[#908f8f] w-[100%]   px-[28px] cursor-pointer "
+                    >
+                      Favourite
+                    </li>
+                    <li
+                      onClick={() => {
+                        navigate(`/carts/allCartBooks/books`);
+                        setPageCat(1);
+                        setShowLinks(false);
+                      }}
+                      className="text-sec hover:bg-[#000000b3] py-[10px] sm2:py-[12px] bg-[#8a8a8a] capitalize text-[22px] font-[500] tracking-[1px] border-b-[0.5px] border-[#908f8f] w-[100%]   px-[28px] cursor-pointer "
+                    >
+                      Cart
+                    </li>
+                    <li
+                      onClick={() => {
+                        setShowLinks(false);
                         setShowDetails(true);
                       }}
                       className="text-sec hover:bg-[#000000d5] py-[12px] flex justify-center items-center gap-1 bg-[#777] capitalize text-[22px] font-[500] tracking-[1px] border-b-[0.5px] border-[#908f8f] w-[100%]   px-[28px] cursor-pointer "
                     >
                       Setting
                     </li>
-                    <li
+                    {/* <li
                       onClick={() => {
                         localStorage.removeItem("token");
                         localStorage.removeItem("userData");
@@ -202,7 +220,7 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
                       className="text-sec hover:bg-[#000000d5] py-[12px] flex justify-center items-center gap-1 bg-[#777] capitalize text-[22px] font-[500] tracking-[1px] border-b-[0.5px] border-[#908f8f] w-[100%]   px-[28px] cursor-pointer "
                     >
                       Log out
-                    </li>
+                    </li> */}
                   </>
                 )}
               </ul>
@@ -213,19 +231,18 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
             <div className=" z-40 personal-details  ani-show-hide">
               <div
                 onClick={() => {
-                  // personalDetails?.classList?.toggle("hidden");
                   setShowDetails(false);
                 }}
                 className="personal-details-overlay"
               ></div>
-              <ul className="text-sec rounded-[15px] overflow-hidden w-[300px] sm:w-[380px] z-[41] relative border-[2px] shadowNavSet border-sec  bg-main px-[20px] sm:px-[50px] pt-[30px] sm:pt-[40px] pb-[30px] sm:pb-[40px]">
+              <ul className="text-sec rounded-[15px] overflow-hidden w-[290px] sm2:w-[360px] z-[41] relative border-[2px] shadowNavSet border-sec  bg-main px-[20px] sm:pl-[30px] pt-[20px] sm:pt-[30px] pb-[15px] sm:pb-[20px]">
                 <li className="flex gap-[15px] items-center mb-[15px]">
                   <img
-                    className="w-[55px] h-[55px] rounded-[50%]"
+                    className="w-[45px] h-[45px] sm2:w-[55px] sm2:h-[55px] rounded-[50%]"
                     src={tokendetails?.payload?.user?.avatarUrl}
                     alt=""
                   />
-                  <span className=" flex items-center gap-[5px] text-[22px] font-medium capitalize tracking-[1px] text-center">
+                  <span className=" flex items-center gap-[5px] text-[19px] sm2:text-[22px] font-medium capitalize tracking-[1px] text-center">
                     {tokendetails?.payload?.user?.fullname}{" "}
                     {tokendetails?.payload?.user?.verified && (
                       <span className="text-white text-[14px] mt-[5px]">
@@ -238,7 +255,7 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
                   Email : {tokendetails?.payload?.user?.email}
                 </li>
                 {/* btns for edit pass and name */}
-                <li className="mt-[25px] flex gap-[30px] cursor-pointer">
+                <li className="mt-[25px] flex gap-[15px] cursor-pointer">
                   <button
                     onClick={() => {
                       setShowInputPass(true);
@@ -327,6 +344,16 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
                     )}
                   </li>
                 )}
+                <li
+                  onClick={() => {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("userData");
+                    location.reload();
+                  }}
+                  className=" cursor-pointer text-[16px] font-medium mt-[10px] ml-[0px] py-[8px] bg-sec border border-sec text-main rounded-lg w-fit px-[5px]"
+                >
+                  Log out
+                </li>
               </ul>
             </div>
           )}
