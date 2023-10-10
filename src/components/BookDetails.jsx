@@ -17,6 +17,7 @@ import { RotatingLines } from "react-loader-spinner";
 import Review from "./Review";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { HiOutlineShoppingCart, HiShoppingCart } from "react-icons/hi2";
+// eslint-disable-next-line react/prop-types
 const BookDetails = ({ setCat, setPage, setPageCat }) => {
   const { id } = useParams();
   const [pageReview, setPageReview] = useState(1);
@@ -226,7 +227,7 @@ const BookDetails = ({ setCat, setPage, setPageCat }) => {
       } else {
         return (
           <div
-            className="mt-[15px]"
+            className="mt-[15px] ani-show-hide"
             onClick={() => {
               deleteFavv();
             }}
@@ -251,7 +252,7 @@ const BookDetails = ({ setCat, setPage, setPageCat }) => {
       } else {
         return (
           <div
-            className="mt-[15px]"
+            className="mt-[15px] ani-show-hide"
             onClick={() => {
               handleAddFav();
             }}
@@ -283,7 +284,7 @@ const BookDetails = ({ setCat, setPage, setPageCat }) => {
     <div className="pb-[50px]">
       <Navbar setCat={setCat} setPage={setPage} setPageCat={setPageCat} />
       <div className="text-sec capitalize flex flex-col sm:flex-row sm:items-start  gap-[25px] px-[50px] py-[50px]">
-        <div className="sm:w-[40%] md:w-[38%] lg:w-[30%] xl:w-[22.5%] flex flex-col items-center sm:items-end">
+        <div className="sm:w-[40%] ani-show-hide md:w-[38%] lg:w-[30%] xl:w-[22.5%] flex flex-col items-center sm:items-end">
           <img src={details?.coverUrl} alt="cover book" />
           <div className="flex gap-1 flex-row-reverse">
             {handleFav()}
@@ -293,8 +294,8 @@ const BookDetails = ({ setCat, setPage, setPageCat }) => {
             <p className=" text-main capitalize  font-medium">{errLogin}</p>
           )}
         </div>
-        <div className=" sm:w-[45%] md:w-[58%] lg:w-[65%] xl:w-[78.5%] text-center sm:text-left">
-          <h1 className="text-[28px] text-main sm:text-[19px] md:text-[24px] lg:text-[28px] xl:text-[34px] tracking-[-1px] md:font-normal lg:font-medium leading-[31px] sm:leading-[23px] md:leading-[26px] lg:leading-[30px] xl:leading-[38px] lg:w-[95%] xl:w-[70%] ">
+        <div className="ani-show-hide sm:w-[45%] md:w-[58%] lg:w-[65%] xl:w-[78.5%] text-center sm:text-left">
+          <h1 className="text-[28px] ani-show-hide text-main sm:text-[19px] md:text-[24px] lg:text-[28px] xl:text-[34px] tracking-[-1px] md:font-normal lg:font-medium leading-[31px] sm:leading-[23px] md:leading-[26px] lg:leading-[30px] xl:leading-[38px] lg:w-[95%] xl:w-[70%] ">
             {details?.title}
           </h1>
           <h4 className="sm:text-[16px] md:text-[18px] mt-[5px] md:mb-[10px] lg:mb-[30px] xl:mb-[20px] pl-[5px]">
@@ -344,18 +345,18 @@ const BookDetails = ({ setCat, setPage, setPageCat }) => {
         </div>
       </div>
       {/* add cmnts and rates */}
-      <div className="mx-[20px] md:mx-[50px] my-[20px] px-[10px] sm:px-[20px] md:px-[20px] pt-[20px] pb-[20px] sm:pb-[30px] md:pb-[20px] rounded-[5px] bg-sec">
+      <div className="mx-[20px] ani-show-hide md:mx-[50px] my-[20px] px-[10px] sm:px-[20px] md:px-[20px] pt-[20px] pb-[20px] sm:pb-[30px] md:pb-[20px] rounded-[5px] bg-sec">
         <h1 className="text-[28px] capitalize text-main font-medium mb-[10px]">
           reviews
         </h1>
         {data?.payload?.book?.isReviewed ? (
-          <p className=" text-main text-[22px] leading-[24px] font-medium">
+          <p className=" text-main ani-show-hide text-[22px] leading-[24px] font-medium">
             You have already posted a review for this book.
           </p>
         ) : (
           <div>
             <form
-              className="flex  md:justify-center items-start md:items-end flex-wrap flex-col md:flex-row"
+              className="flex ani-show-hide md:justify-center items-start md:items-end flex-wrap flex-col md:flex-row"
               action=""
               onSubmit={handleSubmit}
             >
@@ -382,7 +383,7 @@ const BookDetails = ({ setCat, setPage, setPageCat }) => {
               />
             </form>
             {errAddReview && (
-              <p className="text-[18px] pt-[10px] md:pt-[0px] capitalize font-medium text-main">
+              <p className="text-[18px] ani-show-hide pt-[10px] md:pt-[0px] capitalize font-medium text-main">
                 {errAddReview}
               </p>
             )}
@@ -390,7 +391,7 @@ const BookDetails = ({ setCat, setPage, setPageCat }) => {
         )}
 
         {/* Reviews */}
-        <div className="mt-[25px]">
+        <div className="mt-[25px] ani-show-hide">
           {dataReview?.payload?.reviews?.map((review) => (
             <Review key={review.id} data={review} />
           ))}
@@ -413,7 +414,7 @@ const BookDetails = ({ setCat, setPage, setPageCat }) => {
         )}
       </div>
       {/* books reco */}
-      <div className=" grid grid-cols-2 sm2:grid-cols-3   md:grid-cols-4 xl:grid-cols-5 gap-4 parentCards px-[20px] md:px-[50px]">
+      <div className=" grid grid-cols-2 sm2:grid-cols-3 ani-show-hide  md:grid-cols-4 xl:grid-cols-5 gap-4 parentCards px-[20px] md:px-[50px]">
         <BookCard books={data?.payload?.recommendations} />
       </div>
     </div>

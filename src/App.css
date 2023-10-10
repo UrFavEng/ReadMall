@@ -99,3 +99,20 @@ body {
 html {
   scroll-behavior: smooth;
 }
+.ani-show-hide {
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  animation: ShowHide 300ms ease-in-out;
+  -webkit-animation: ShowHide 300ms ease-in-out;
+}
+@keyframes ShowHide {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

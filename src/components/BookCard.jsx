@@ -6,7 +6,7 @@ const BookCard = ({ books }) => {
     <>
       {Array.isArray(books) ? (
         books?.map((e) => (
-          <a href="#idNav" key={e?.id}>
+          <a href="#idNav" key={e?.id} className="ani-show-hide">
             <div
               onClick={() => {
                 navigate(`/book/${e?.id}`);
@@ -31,7 +31,7 @@ const BookCard = ({ books }) => {
           </a>
         ))
       ) : (
-        <a href="#idNav">
+        <a href="#idNav" className="ani-show-hide">
           <div
             onClick={() => {
               navigate(`/book/${books?.id}`);

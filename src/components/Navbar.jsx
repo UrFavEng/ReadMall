@@ -144,14 +144,14 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
             </>
           )}
           {showLinks && (
-            <div className="navcat z-40  md:hidden navcat w-[250px] shadowNavSet sm2:w-[300px] rounded-[15px]">
+            <div className="navcat ani-show-hide z-40  md:hidden navcat w-[250px] shadowNavSet sm2:w-[300px] rounded-[15px]">
               <div
                 onClick={() => {
                   // navcat?.classList?.toggle("hidden");
                   setShowLinks(false);
                 }}
               ></div>
-              <ul className="cats text-center sticky top-[250px] w-[100%] rounded-[15px] shadowNavSet overflow-hidden">
+              <ul className="cats ani-show-hide text-center sticky top-[250px] w-[100%] rounded-[15px] shadowNavSet overflow-hidden">
                 {/* links cats */}
                 {cats?.map((e) => (
                   <li
@@ -205,89 +205,12 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
                     </li>
                   </>
                 )}
-                <li
-                  onClick={() => {
-                    // navcat.classList.add("hidden");
-                    setShowLinks(false);
-                  }}
-                  className="text-sec hover:bg-main py-[12px] flex justify-center items-center gap-1 bg-[#777] capitalize text-[22px] font-[500] tracking-[1px] border-b-[0.5px] border-[#908f8f] w-[100%]   px-[28px] cursor-pointer "
-                >
-                  <span className="bg-transparent">Close</span>
-                  <AiFillCloseCircle className="text-[22px] pt-1" />
-                </li>
               </ul>
             </div>
           )}
-          <div className="navcat z-40 hidden md:hidden navcat w-[250px] shadowNavSet sm2:w-[300px] ">
-            <div
-              onClick={() => {
-                navcat?.classList?.toggle("hidden");
-              }}
-            ></div>
-            <ul className="cats text-center sticky top-[250px] w-[100%] rounded-[15px] shadowNavSet overflow-hidden">
-              {/* links cats */}
-              {cats?.map((e) => (
-                <li
-                  onClick={() => {
-                    navigate(`/category/${e?.id}`);
-                    setPageCat(1);
-                    setPage(1);
-                    navcat.classList.add("hidden");
-                  }}
-                  key={e?.id}
-                  className="text-sec hover:bg-[#000000b3] py-[10px] sm2:py-[12px] bg-[#8a8a8a] capitalize text-[22px] font-[500] tracking-[1px] border-b-[0.5px] border-[#908f8f] w-[100%]   px-[28px] cursor-pointer "
-                >
-                  {e?.categoryName}
-                </li>
-              ))}
-              {/* check login or not */}
-              {errorGetMe?.data?.error ? (
-                <li
-                  onClick={() => {
-                    navigate(`/login`);
-                    navcat.classList.add("hidden");
-                  }}
-                  className="text-sec hover:bg-[#000000d5] py-[12px] flex justify-center items-center gap-1 bg-[#777] capitalize text-[22px] font-[500] tracking-[1px] border-b-[0.5px] border-[#908f8f] w-[100%]   px-[28px] cursor-pointer "
-                >
-                  Sign in / Sign up
-                </li>
-              ) : (
-                <>
-                  <li
-                    onClick={() => {
-                      navcat.classList.add("hidden");
-                      personalDetails?.classList?.toggle("hidden");
-                    }}
-                    className="text-sec hover:bg-[#000000d5] py-[12px] flex justify-center items-center gap-1 bg-[#777] capitalize text-[22px] font-[500] tracking-[1px] border-b-[0.5px] border-[#908f8f] w-[100%]   px-[28px] cursor-pointer "
-                  >
-                    Setting
-                  </li>
-                  <li
-                    onClick={() => {
-                      localStorage.removeItem("token");
-                      localStorage.removeItem("userData");
-                      location.reload();
-                    }}
-                    className="text-sec hover:bg-[#000000d5] py-[12px] flex justify-center items-center gap-1 bg-[#777] capitalize text-[22px] font-[500] tracking-[1px] border-b-[0.5px] border-[#908f8f] w-[100%]   px-[28px] cursor-pointer "
-                  >
-                    Log out
-                  </li>
-                </>
-              )}
-              <li
-                onClick={() => {
-                  navcat.classList.add("hidden");
-                }}
-                className="text-sec hover:bg-main py-[12px] flex justify-center items-center gap-1 bg-[#777] capitalize text-[22px] font-[500] tracking-[1px] border-b-[0.5px] border-[#908f8f] w-[100%]   px-[28px] cursor-pointer "
-              >
-                <span className="bg-transparent">Close</span>
-                <AiFillCloseCircle className="text-[22px] pt-1" />
-              </li>
-            </ul>
-          </div>
           {/* personal-details */}
           {showDetails && (
-            <div className=" z-40 personal-details  ">
+            <div className=" z-40 personal-details  ani-show-hide">
               <div
                 onClick={() => {
                   // personalDetails?.classList?.toggle("hidden");

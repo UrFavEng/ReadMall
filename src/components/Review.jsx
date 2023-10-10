@@ -92,7 +92,7 @@ const Review = ({ data }) => {
   return (
     <>
       {" "}
-      <div className=" mb-[5px] flex flex-col sm:flex-row justify-start items-start gap-2 sm:gap-4">
+      <div className=" mb-[5px] ani-show-hide flex flex-col sm:flex-row justify-start items-start gap-2 sm:gap-4">
         <div className="w-[45px] rounded-full overflow-hidden p-1">
           <img
             src={"https://avatars.githubusercontent.com/u/92646979?v=4"}

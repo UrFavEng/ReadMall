@@ -4,6 +4,7 @@ import BookCard from "./BookCard";
 import { useGetSearchBookQuery } from "../store/apiSlice";
 import { RotatingLines } from "react-loader-spinner";
 
+// eslint-disable-next-line react/prop-types
 const SearchResulte = ({ setCat, setPage, setPageCat }) => {
   let { name } = useParams();
 

@@ -1,20 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { useParams } from "react-router-dom";
 import { useGetFavOrCartQuery } from "../store/apiSlice";
 import BookCard from "./BookCard";
 import { RotatingLines } from "react-loader-spinner";
 
+// eslint-disable-next-line react/prop-types
 const FavOrCrt = ({ setCat, setPage, setPageCat }) => {
   let { type, name } = useParams();
   const [pageBook, setPageBook] = useState(1);
+  const [books, setBooks] = useState([]);
 
   const { data, isLoading } = useGetFavOrCartQuery({
     type,
     name,
     pageBook,
   });
-  console.log(data?.payload?.numOfPages);
+  console.log(data?.payload);
   const nextPage = () => {
     if (pageBook < data?.payload?.numOfPages) {
       setPageBook(pageBook + 1);
@@ -25,6 +27,9 @@ const FavOrCrt = ({ setCat, setPage, setPageCat }) => {
       setPageBook(pageBook - 1);
     }
   };
+  useEffect(() => {
+    setBooks(data?.payload?.books);
+  }, [data?.payload?.books]);
   return (
     <div>
       <Navbar setCat={setCat} setPage={setPage} setPageCat={setPageCat} />
@@ -40,28 +45,41 @@ const FavOrCrt = ({ setCat, setPage, setPageCat }) => {
         </div>
       ) : (
         <>
-          <div className=" grid grid-cols-2  sm:grid-cols-3 md:grid-cols-4  lg:grid-cols-4 xl:grid-cols-5 gap-4 p-[15px] parentFavCrt">
-            {data?.payload?.books?.map((book) => (
-              <BookCard key={book?.bookId} books={book?.book} />
-            ))}
-          </div>
+          {data?.payload?.books.length > 0 ? (
+            <div className=" grid grid-cols-2  sm:grid-cols-3 md:grid-cols-4  lg:grid-cols-4 xl:grid-cols-5 gap-4 p-[15px] parentFavCrt">
+              {books?.map((book) => (
+                <BookCard key={book?.bookId} books={book?.book} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-main text-[40px] mt-[80px] font-semibold text-center">
+              No Books
+            </p>
+          )}
+          {}
           <div className="text-sec flex gap-3 justify-center items-center pt-[35px] pb-[10px]">
-            <button
-              className="p-[10px] bg-main rounded-[10px] "
-              onClick={() => {
-                previousPage();
-              }}
-            >
-              Previous
-            </button>
-            <button
-              className="p-[10px] bg-main rounded-[10px]"
-              onClick={() => {
-                nextPage();
-              }}
-            >
-              Next
-            </button>
+            {data?.payload?.numOfPages > 1 ? (
+              <>
+                <button
+                  className="p-[10px] bg-main rounded-[10px] "
+                  onClick={() => {
+                    previousPage();
+                  }}
+                >
+                  Previous
+                </button>
+                <button
+                  className="p-[10px] bg-main rounded-[10px]"
+                  onClick={() => {
+                    nextPage();
+                  }}
+                >
+                  Next
+                </button>
+              </>
+            ) : (
+              ""
+            )}
           </div>
         </>
       )}
