@@ -317,7 +317,7 @@ const BookDetails = ({ setCat, setPage, setPageCat }) => {
             {details?.pages} pages
           </p>
           <p className="text-[16px] font-light  pl-[5px]">
-            price : {details?.price ? details?.price : "Free"}
+            price : {details?.price ? `${details?.price / 100} $` : "Free"}
           </p>
           <p
             onClick={() => {
@@ -327,21 +327,23 @@ const BookDetails = ({ setCat, setPage, setPageCat }) => {
           >
             Publisher : {details?.publisher?.publisherName}
           </p>
-          <div className="flex gap-[8px] pl-[5px] pt-[10px] justify-center sm:justify-start">
-            <a
-              href={details?.bookUrl}
-              download="Example-PDF-document"
-              target="_blank"
-              rel="noreferrer"
-            >
+          {!details?.price && (
+            <div className="flex gap-[8px] pl-[5px] pt-[10px] justify-center sm:justify-start">
+              <a
+                href={details?.bookUrl}
+                download="Example-PDF-document"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <button className="py-[5px] px-[8px] bg-main rounded-[8px] text-[14px]">
+                  Download
+                </button>
+              </a>
               <button className="py-[5px] px-[8px] bg-main rounded-[8px] text-[14px]">
-                Download
+                Read
               </button>
-            </a>
-            <button className="py-[5px] px-[8px] bg-main rounded-[8px] text-[14px]">
-              Read
-            </button>
-          </div>
+            </div>
+          )}
         </div>
       </div>
       {/* add cmnts and rates */}

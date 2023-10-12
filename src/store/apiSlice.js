@@ -128,8 +128,7 @@ export const apiSlice = createApi({
       invalidatesTags: ["crt"],
     }),
     getFavOrCart: builder.query({
-      query: ({ type, name, pageBook }) =>
-        `/${type}/${name}?limit=10&page=${pageBook}`,
+      query: ({ type, name }) => `/${type}/${name}?limit=10000`,
       providesTags: ["fav", "crt"],
     }),
   }),

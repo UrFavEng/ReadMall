@@ -8,11 +8,12 @@ import BookDetails from "./BookDetails";
 import SearchResulte from "./SearchResulte";
 import AuthorDetails from "./AuthorDetails";
 import PublisherDetails from "./PublisherDetails";
-import NavCat from "./NavCat";
 import Review from "./Review";
 import FavOrCrt from "./FavOrCrt";
+import ShoppingCrt from "./ShoppingCrt";
 export {
   Review,
+  ShoppingCrt,
   Navbar,
   Login,
   Signin,
@@ -23,6 +24,5 @@ export {
   SearchResulte,
   AuthorDetails,
   PublisherDetails,
-  NavCat,
   FavOrCrt,
 };

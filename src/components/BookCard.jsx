@@ -37,7 +37,7 @@ const BookCard = ({ books }) => {
                     ? e?.title
                     : `${e?.title.split("").slice(0, 50).join("")}...`}
                 </h1>
-                <p>{e?.price ? e?.price : "Free"}</p>
+                <p>{e?.price ? `${e?.price / 100} $` : "Free"}</p>
               </div>
             </div>
           </a>
@@ -62,7 +62,7 @@ const BookCard = ({ books }) => {
                   ? books?.title
                   : `${books?.title.split("").slice(0, 50).join("")}...`}
               </h1>
-              <p>{books?.price ? books?.price : "Free"}</p>
+              <p>{books?.price ? `${books?.price / 100} $` : "Free"}</p>
             </div>
           </div>
         </a>
