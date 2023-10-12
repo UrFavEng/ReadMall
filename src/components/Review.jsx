@@ -14,7 +14,6 @@ const Review = ({ data }) => {
   const [showEdit, setShowEdit] = useState(false);
   const [loadDelete, setLoadDelete] = useState(false);
   const [inputValue, setInputValue] = useState(data?.comment);
-
   const birthDateObject = new Date(data?.createdAt);
   const day = birthDateObject.getUTCDate();
   const month = birthDateObject.getUTCMonth() + 1;
@@ -22,11 +21,9 @@ const Review = ({ data }) => {
   const formattedBirthDate = `${day}/${month}/${year}`;
   if (data?.createdAt) {
     const deathDateObject = new Date(data?.createdAt);
-
     const day = deathDateObject.getUTCDate();
     const month = deathDateObject.getUTCMonth() + 1;
     const year = deathDateObject.getUTCFullYear();
-
     var formattedDeathDate = `${day}/${month}/${year}`;
   }
   const deleteReviewF = () => {

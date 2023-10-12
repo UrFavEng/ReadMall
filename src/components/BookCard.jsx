@@ -1,12 +1,24 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const BookCard = ({ books }) => {
   const navigate = useNavigate();
+  useEffect(() => {
+    window.addEventListener("scroll", () => {});
+
+    return () => {
+      window.removeEventListener("scroll", () => {});
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo(0, 0);
+  };
   return (
     <>
       {Array.isArray(books) ? (
         books?.map((e) => (
-          <a href="#idNav" key={e?.id} className="ani-show-hide">
+          <a onClick={scrollToTop} key={e?.id} className="ani-show-hide">
             <div
               onClick={() => {
                 navigate(`/book/${e?.id}`);
@@ -31,7 +43,7 @@ const BookCard = ({ books }) => {
           </a>
         ))
       ) : (
-        <a href="#idNav" className="ani-show-hide">
+        <a onClick={scrollToTop} className="ani-show-hide">
           <div
             onClick={() => {
               navigate(`/book/${books?.id}`);

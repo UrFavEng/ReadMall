@@ -9,8 +9,9 @@ import {
   useRenameMutation,
 } from "../store/apiSlice";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { MdVerified } from "react-icons/md";
+import { MdFavoriteBorder, MdVerified } from "react-icons/md";
 import { useForm } from "react-hook-form";
+import { HiOutlineShoppingCart } from "react-icons/hi2";
 const Navbar = ({ setCat, setPage, setPageCat }) => {
   const rout = useNavigate();
   const [renamme] = useRenameMutation();
@@ -62,9 +63,6 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
 
   const { data } = useGetCatQuery();
   const cats = data?.payload?.categories;
-  const navcat = document.querySelector(".navcat");
-  const personalDetails = document.querySelector(".personal-details");
-
   const { data: tokendetails, error: errorGetMe } = useGetMeQuery();
   // console.log(tokendetails);
   const [showLinks, setShowLinks] = useState(false);
@@ -73,7 +71,6 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
   return (
     <>
       <div
-        id={"idNav"}
         className={`bg-main flex justify-around   ${
           show ? "pb-[10px]" : "pb-[15px]"
         }  pt-[15px] md:py-[20px] items-center`}
@@ -188,9 +185,10 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
                         setPageCat(1);
                         setShowLinks(false);
                       }}
-                      className="text-sec hover:bg-[#000000b3] py-[10px] sm2:py-[12px] bg-[#8a8a8a] capitalize text-[22px] font-[500] tracking-[1px] border-b-[0.5px] border-[#908f8f] w-[100%]   px-[28px] cursor-pointer "
+                      className="text-sec flex justify-center gap-1 hover:bg-[#000000b3] py-[10px] sm2:py-[12px] bg-[#8a8a8a] capitalize text-[22px] font-[500] tracking-[1px] border-b-[0.5px] border-[#908f8f] w-[100%]   px-[28px] cursor-pointer "
                     >
-                      Favourite
+                      Favourite{" "}
+                      <MdFavoriteBorder className="text-[26px] text-sec mt-[6px]" />
                     </li>
                     <li
                       onClick={() => {
@@ -198,9 +196,10 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
                         setPageCat(1);
                         setShowLinks(false);
                       }}
-                      className="text-sec hover:bg-[#000000b3] py-[10px] sm2:py-[12px] bg-[#8a8a8a] capitalize text-[22px] font-[500] tracking-[1px] border-b-[0.5px] border-[#908f8f] w-[100%]   px-[28px] cursor-pointer "
+                      className="text-sec flex justify-center gap-1 hover:bg-[#000000b3] py-[10px] sm2:py-[12px] bg-[#8a8a8a] capitalize text-[22px] font-[500] tracking-[1px] border-b-[0.5px] border-[#908f8f] w-[100%]   px-[28px] cursor-pointer "
                     >
-                      Cart
+                      Cart{" "}
+                      <HiOutlineShoppingCart className="text-[26px] text-sec mt-[6px] " />
                     </li>
                     <li
                       onClick={() => {
