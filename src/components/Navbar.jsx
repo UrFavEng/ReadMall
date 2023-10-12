@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import {
   useGetCatQuery,
+  useGetFavOrCartQuery,
   useGetMeQuery,
   useRenameMutation,
 } from "../store/apiSlice";
@@ -13,6 +14,10 @@ import { MdFavoriteBorder, MdVerified } from "react-icons/md";
 import { useForm } from "react-hook-form";
 import { HiOutlineShoppingCart } from "react-icons/hi2";
 const Navbar = ({ setCat, setPage, setPageCat }) => {
+  const type = "carts";
+  const name = "allCartBooks";
+  const { data: numcrt } = useGetFavOrCartQuery({ type, name });
+  console.log(numcrt?.payload?.books.length);
   const rout = useNavigate();
   const [renamme] = useRenameMutation();
   const [reset, setReset] = useState("");
@@ -120,9 +125,19 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
             </>
           ) : (
             <>
+              <div className="relative hidden md:block">
+                <HiOutlineShoppingCart
+                  className="text-sec text-[35px] cursor-pointer "
+                  onClick={() => {
+                    navigate(`/carts/allCartBooks/books`);
+                  }}
+                />
+                <span className=" absolute h-[20px] font-semibold w-[20px] text-[14px]  bottom-[-12px] left-[-5px] rounded-full bg-sec text-main flex justify-center items-center leading-[10px]">
+                  {numcrt?.payload?.books.length}
+                </span>
+              </div>
               <AiFillSetting
                 onClick={() => {
-                  // personalDetails?.classList?.toggle("hidden");
                   setShowDetails(!showDetails);
                 }}
                 className="hidden md:block text-sec text-[28px] sm:text-[35px] cursor-pointer"

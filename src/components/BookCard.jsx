@@ -26,7 +26,7 @@ const BookCard = ({ books }) => {
               className="w-[100%] mx-auto border-b border-sec p-[1px] pb-0 cursor-pointer hover:translate-y-[-11px] shadow-4xl hover:shadow-3xl "
             >
               <div>
-                <img src={e?.coverUrl} alt={"cover book"} />
+                <img loading="lazy" src={e?.coverUrl} alt={"cover book"} />
               </div>
               <div className="bg-[#1b1b1b]  min-h-[80px] flex flex-col justify-around  text-sec px-[8px] ">
                 <h1
