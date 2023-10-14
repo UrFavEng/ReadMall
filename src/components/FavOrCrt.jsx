@@ -5,19 +5,36 @@ import { useGetFavOrCartQuery } from "../store/apiSlice";
 import BookCard from "./BookCard";
 import { RotatingLines } from "react-loader-spinner";
 import ShoppingCrt from "./ShoppingCrt";
+import axios from "axios";
 
 // eslint-disable-next-line react/prop-types
 const FavOrCrt = ({ setCat, setPage, setPageCat }) => {
+  const handleCheckoutClick = () => {
+    const checkoutUrl = "https://readmall.onrender.com/api/v1/orders/checkout";
+    const token = localStorage.getItem("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/json, text/plain, */*",
+      "Content-type": "application/json",
+    };
+
+    axios
+      .get(checkoutUrl, { headers })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   let { type, name } = useParams();
   // const [pageBook, setPageBook] = useState(1);
   const [books, setBooks] = useState([]);
-
   const { data, isLoading } = useGetFavOrCartQuery({
     type,
     name,
   });
-  console.log(data);
-
   useEffect(() => {
     setBooks(data?.payload?.books);
   }, [data?.payload?.books]);
@@ -26,7 +43,6 @@ const FavOrCrt = ({ setCat, setPage, setPageCat }) => {
     for (let i = 0; i < books?.length; i++) {
       price += books[i].book.price;
     }
-    console.log(price / 100);
     return (
       <div>
         <Navbar setCat={setCat} setPage={setPage} setPageCat={setPageCat} />
@@ -46,7 +62,7 @@ const FavOrCrt = ({ setCat, setPage, setPageCat }) => {
               <div className="flex  lg:items-center  flex-col lg:flex-row mt-[20px] lg:ml-[0px] justify-between  mb-[25px]">
                 <div className="grid  sm:grid-cols-2 gap-[20px] sm:mx-[15px] lg:flex-[4] xl:flex-[3]">
                   {books?.map((book) => (
-                    <ShoppingCrt key={book?.bookId} book={book?.book} />
+                    <ShoppingCrt key={book?.book?.id} book={book?.book} />
                   ))}
                 </div>
                 <div className=" text-main md:flex-1 text-center ">
@@ -57,7 +73,10 @@ const FavOrCrt = ({ setCat, setPage, setPageCat }) => {
                         {price / 100} $
                       </span>
                     </h1>
-                    <button className="text-sec bg-main text-[22px] sm:text-[30px] lg:text-[20px] xl:text-[24px]  leading-[20px] sm:leading-[30px] lg:leading-[20px]  border-sec border-[1px] rounded-xl py-[10px] px-[8px] mt-[20px] lg:mt-[10px] xl:mt-[20px]">
+                    <button
+                      onClick={() => handleCheckoutClick()}
+                      className="text-sec bg-main text-[22px] sm:text-[30px] lg:text-[20px] xl:text-[24px]  leading-[20px] sm:leading-[30px] lg:leading-[20px]  border-sec border-[1px] rounded-xl py-[10px] px-[8px] mt-[20px] lg:mt-[10px] xl:mt-[20px]"
+                    >
                       Check out
                     </button>
                   </div>

@@ -63,9 +63,9 @@ export const apiSlice = createApi({
     }),
     rename: builder.mutation({
       query: (body) => ({
-        url: "/users/editMyProfile", // تحديد مسار المورد الذي تريد تحديثه
-        method: "PATCH", // استخدام طريقة PATCH
-        body, // بيانات التحديث التي تريد إرسالها
+        url: "/users/editMyProfile",
+        method: "PATCH",
+        body,
       }),
       invalidatesTags: ["dataUser"],
     }),
@@ -131,6 +131,9 @@ export const apiSlice = createApi({
       query: ({ type, name }) => `/${type}/${name}?limit=10000`,
       providesTags: ["fav", "crt"],
     }),
+    checkout: builder.query({
+      query: () => `/orders/checkout`,
+    }),
   }),
 });
 
@@ -161,4 +164,5 @@ export const {
   useAddCartMutation,
   useDeleteCartMutation,
   useGetFavOrCartQuery,
+  useLazyCheckoutQuery,
 } = apiSlice;

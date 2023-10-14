@@ -17,7 +17,7 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
   const type = "carts";
   const name = "allCartBooks";
   const { data: numcrt } = useGetFavOrCartQuery({ type, name });
-  console.log(numcrt?.payload?.books.length);
+  // console.log(numcrt?.payload?.books.length);
   const rout = useNavigate();
   const [renamme] = useRenameMutation();
   const [reset, setReset] = useState("");
@@ -81,7 +81,7 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
         }  pt-[15px] md:py-[20px] items-center`}
       >
         <h1
-          className="text-sec text-[22px] sm:text-[30px] font-medium tracking-[1px] cursor-pointer"
+          className="text-sec text-[26px] sm:text-[30px] font-medium tracking-[1px] cursor-pointer"
           onClick={() => {
             setCat("getRecentlyUploaded");
             setPage(1);
@@ -104,8 +104,28 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
           />
         </form>
         <div className="flex gap-[6px] sm:gap-3 items-center ">
+          {errorGetMe?.data?.error ? (
+            ""
+          ) : (
+            <div className="relative block md:hidden">
+              <HiOutlineShoppingCart
+                className="text-sec text-[33px] sm:text-[35px] cursor-pointer "
+                onClick={() => {
+                  navigate(`/carts/allCartBooks/books`);
+                }}
+              />
+              <span
+                onClick={() => {
+                  navigate(`/carts/allCartBooks/books`);
+                }}
+                className="  cursor-pointer absolute h-[17px] font-semibold w-[17px] text-[13px]  bottom-[-12px] left-[-5px] rounded-full bg-sec text-main flex justify-center items-center leading-[10px]"
+              >
+                {numcrt?.payload?.books.length}
+              </span>
+            </div>
+          )}
           <AiOutlineSearch
-            className="text-sec text-[28px] sm:text-[35px] cursor-pointer block md:hidden"
+            className="text-sec text-[33px] sm:text-[35px] cursor-pointer block md:hidden"
             onClick={() => setShow(!show)}
           />{" "}
           <div
@@ -115,7 +135,7 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
               setShowLinks(!showLinks);
             }}
           >
-            <GiHamburgerMenu className="text-sec text-[28px] sm:text-[35px] cursor-pointer block md:hidden" />
+            <GiHamburgerMenu className="text-sec text-[33px] sm:text-[35px] cursor-pointer block md:hidden" />
           </div>
           {errorGetMe?.data?.error ? (
             <>
@@ -132,7 +152,12 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
                     navigate(`/carts/allCartBooks/books`);
                   }}
                 />
-                <span className=" absolute h-[20px] font-semibold w-[20px] text-[14px]  bottom-[-12px] left-[-5px] rounded-full bg-sec text-main flex justify-center items-center leading-[10px]">
+                <span
+                  onClick={() => {
+                    navigate(`/carts/allCartBooks/books`);
+                  }}
+                  className=" cursor-pointer absolute h-[20px] font-semibold w-[20px] text-[14px]  bottom-[-12px] left-[-5px] rounded-full bg-sec text-main flex justify-center items-center leading-[10px]"
+                >
                   {numcrt?.payload?.books.length}
                 </span>
               </div>
