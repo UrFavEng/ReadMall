@@ -169,9 +169,12 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
               />
               <span className="hidden md:flex text-main bg-sec h-[30px] sm:h-[35px] w-[45px] sm:w-[55px] rounded-[8px] sm:rounded-[10px]  justify-center items-center font-medium text-[14px] sm:text-[16px] cursor-pointer">
                 <Link
+                  to={""}
                   onClick={() => {
                     localStorage.removeItem("token");
                     localStorage.removeItem("dataUser");
+                    navigate(`/`);
+
                     location.reload();
                   }}
                 >
@@ -387,9 +390,10 @@ const Navbar = ({ setCat, setPage, setPageCat }) => {
                   onClick={() => {
                     localStorage.removeItem("token");
                     localStorage.removeItem("userData");
+                    rout("/");
                     location.reload();
                   }}
-                  className=" cursor-pointer text-[16px] font-medium mt-[10px] ml-[0px] py-[8px] bg-sec border border-sec text-main rounded-lg w-fit px-[5px]"
+                  className=" cursor-pointer  block md:hidden text-[16px] font-medium mt-[10px] ml-[0px] py-[8px] bg-sec border border-sec text-main rounded-lg w-fit px-[5px]"
                 >
                   Log out
                 </li>

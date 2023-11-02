@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const BookCard = ({ books }) => {
+  console.log(books);
   const navigate = useNavigate();
   useEffect(() => {
     window.addEventListener("scroll", () => {});
@@ -28,10 +29,16 @@ const BookCard = ({ books }) => {
               <div>
                 <img loading="lazy" src={e?.coverUrl} alt={"cover book"} />
               </div>
-              <div className="bg-[#1b1b1b]  min-h-[80px] flex flex-col justify-around  text-sec px-[8px] ">
+              <div
+                className={`bg-[#1b1b1b]  min-h-[80px] flex flex-col justify-around  text-sec px-[8px]  `}
+              >
                 <h1
-                  className="text-[13px] md:text-[16px] xl:text-[17px] leading-[20px]  xl:leading-[22px] capitalize font-semibold pt-[5px] "
-                  dir={`${e?.lang === "ar" ? "rtl" : "ltr"}`}
+                  className={`text-[13px] ${
+                    e?.lang === "arabic"
+                      ? "ArabicFont text-[18px] md:text-[22px] font-medium md:font-bold"
+                      : "md:text-[16px] xl:text-[17px] font-semibold"
+                  }  leading-[20px]  xl:leading-[22px] capitalize  pt-[5px] `}
+                  dir={`${e?.lang === "arabic" ? "rtl" : "ltr"}`}
                 >
                   {e?.title.split("").length < 50
                     ? e?.title
